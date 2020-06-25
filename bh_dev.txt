@@ -112,11 +112,11 @@ from: bh_arch.sif
     #  -keyout /etc/ssl/private/bh-selfsigned.key -out /etc/ssl/certs/bh-selfsigned.crt
 
     # file permissions not ideal, but needed to run in container without root
-    mkdir -p /var/run/nginx /etc/nginx/sites-available /etc/nginx/sites-enabled
+    mkdir -p /run/nginx /etc/nginx/sites-available /etc/nginx/sites-enabled
     chmod -R 644 \
       /etc/ssl/dhparam.pem /etc/ssl/certs/bh-selfsigned.crt /etc/ssl/private/bh-selfsigned.key
       /etc/nginx/nginx.conf /etc/nginx/sites-available/ /etc/nginx/sites-enabled/
-    chmod -R 666 /var/lib/nginx/ /var/log/nginx/ /var/run/nginx/
+    chmod -R 666 /var/lib/nginx/ /var/log/nginx/ /run/nginx/
 
 
 
