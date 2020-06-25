@@ -1,0 +1,5 @@
+bind-addr: 127.0.0.1:8999
+auth: none
+cert: /etc/ssl/certs/bh-selfsigned.crt
+cert-key: /etc/ssl/private/bh-selfsigned.key
+extensions-dir: /opt/code-server/extensions/

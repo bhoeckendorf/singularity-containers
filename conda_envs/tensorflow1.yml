@@ -1,0 +1,14 @@
+name: tensorflow1
+channels:
+  - conda-forge
+  - rapidsai
+  - nvidia
+  - bokeh
+  - defaults
+dependencies:
+  - ipykernel
+  - tensorflow-gpu=1
+  - pip
+  - pip:
+    - csbdeep
+    - n2v

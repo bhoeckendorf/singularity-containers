@@ -1,0 +1,11 @@
+jobqueue:
+  lsf:
+    cores: 8
+    processes: 2
+    memory: 2GB
+    walltime: 06:00:00
+    local-directory: /scratch_local/bhoecken
+    queue: standard
+    project: cbi
+    interface: ib0
+    use-stdin: true

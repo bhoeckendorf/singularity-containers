@@ -1,0 +1,11 @@
+distributed:
+  scheduler:
+    dashboard:
+      tls:
+        key: /etc/ssl/private/bh-selfsigned.key
+        cert: /etc/ssl/certs/bh-selfsigned.crt
+  worker:
+    memory:
+      spill: False
+  dashboard:
+    link: "{scheme}://{host}:9988/status"

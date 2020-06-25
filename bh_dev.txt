@@ -1,0 +1,223 @@
+bootstrap: localimage
+from: bh_arch.sif
+
+%runscript
+    source /etc/profile.d/*
+    conda activate default
+    python "$@"
+
+%apprun python
+    source /etc/profile.d/*
+    conda activate default
+    python "$@"
+
+%apprun ipython
+    source /etc/profile.d/*
+    conda activate default
+    ipython "$@"
+
+%apprun jupyter
+    source /etc/profile.d/*
+    source ${JUPYTER_HOME}/bin/activate
+    jupyter-lab --config=${JUPYTER_HOME}/etc/jupyter/jupyter_notebook_config.py "$@"
+
+%apprun code
+    source /etc/profile.d/*
+    code-server --config=${CODER_HOME}/etc/config.yaml --disable-telemetry /research/sharedresources/cbi/common/burkhard/
+
+%apprun conda
+    source /etc/profile.d/*
+    exec conda "$@"
+
+%apprun pip
+    source /etc/profile.d/*
+    exec pip "$@"
+
+%apprun tensorboard
+    source /etc/profile.d/*
+    conda activate default
+    tensorboard --logdir="$@"
+
+%apprun pytorch_test_gpu
+    source /etc/profile.d/*
+    conda activate default
+    python -c "import torch\nprint(torch.cuda.is_available())"
+
+%apprun tensorflow_test_gpu
+    source /etc/profile.d/*
+    conda activate default
+    python -c "import tensorflow as tf\nprint(tf.config.list_physical_devices('GPU'))"
+
+%apprun tensorflow1_test_gpu
+    source /etc/profile.d/*
+    conda activate tensorflow1
+    python -c "import tensorflow as tf\nprint(tf.test.is_gpu_available())"
+
+%files
+    config/nginx.conf                 /etc/nginx/
+    conda_envs/default.yml            /root/
+    conda_envs/tensorflow1.yml        /root/
+    config/jupyter_notebook_config.py /opt/jupyter/etc/jupyter/
+    config/nginx_jupyter.conf         /opt/jupyter/etc/jupyter/
+    config/preload_jupyter.py         /etc/dask/
+    config/distributed.yml            /etc/dask/
+    config/jobqueue.yml               /etc/dask/
+    config/code-server_config.yml     /opt/code-server/etc/config.yaml
+    config/nginx_code-server.conf     /opt/code-server/etc/
+    secrets/htpasswd                  /etc/nginx/.htpasswd  # printf "${username}:`openssl passwd -apr1`\n" >> /etc/nginx/.htpasswd
+    secrets/dhparam.pem               /etc/ssl/
+    secrets/bh-selfsigned.key         /etc/ssl/private/
+    secrets/bh-selfsigned.crt         /etc/ssl/certs/
+
+%post
+    export JAVA_HOME=/usr/lib/jvm/default
+    export JRE_HOME=${JAVA_HOME}
+    export CONDA_HOME=/opt/conda
+    export JUPYTER_HOME=/opt/jupyter
+    export CODER_HOME=/opt/code-server
+
+
+
+    ########################
+    #  OS package manager  #
+    ########################
+
+    pacman -Syu --noconfirm
+    pacman -S --needed --noconfirm \
+      base-devel gdb clang lldb openmp intel-tbb intel-mkl ccache cmake git tk \
+      blas cblas openblas lapack lapacke fftw hdf5 openimageio zlib sqlite gnuplot \
+      jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
+      go julia python python-pip \
+      nginx-mainline npm yarn
+
+    mkdir -p /var/cache/pacman/pkg
+    yes | pacman -Scc
+    rm -rf /var/cache/pacman/pkg
+
+    source /etc/profile.d/jre.sh
+
+
+
+    ########################
+    #  SSL & nginx         #
+    ########################
+
+    # take DH params from secrets, don't generate or fetch
+    #curl https://ssl-config.mozilla.org/ffdhe4096.txt > /etc/ssl/dhparam.pem
+    #openssl dhparam -out /etc/ssl/dhparam.pem 4096
+
+    # take certificate from secrets, don't generate
+    #openssl req -x509 -nodes -sha256 -days 3650 -newkey rsa:4096 \
+    #  -subj "/C=US/ST=Tennessee/L=Memphis/O=St Jude Children's Research Hospital/OU=Center for Bioimage Informatics/CN=/emailAddress=cbi@stjude.org" \
+    #  -keyout /etc/ssl/private/bh-selfsigned.key -out /etc/ssl/certs/bh-selfsigned.crt
+
+    # file permissions not ideal, but needed to run in container without root
+    mkdir -p /var/run/nginx /etc/nginx/sites-available /etc/nginx/sites-enabled
+    chmod -R 644 \
+      /etc/ssl/dhparam.pem /etc/ssl/certs/bh-selfsigned.crt /etc/ssl/private/bh-selfsigned.key
+      /etc/nginx/nginx.conf /etc/nginx/sites-available/ /etc/nginx/sites-enabled/
+    chmod -R 666 /var/lib/nginx/ /var/log/nginx/ /var/run/nginx/
+
+
+
+    ########################
+    #  conda               #
+    ########################
+
+    curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p ${CONDA_HOME}
+    rm Miniconda3-latest-Linux-x86_64.sh
+    ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+
+    source /etc/profile.d/conda.sh
+    conda update --all
+
+    conda env create -f /root/default.yml
+    conda activate default
+    pip install --no-cache-dir detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/index.html
+    pip install --no-cache-dir --no-deps cellpose
+    conda deactivate
+
+    conda create --name tensorflow1 --clone default
+    conda env update --name tensorflow1 --file /root/tensorflow1.yml
+    
+    rm /root/default.yml /root/tensorflow1.yml
+    chmod -R 755 ${CONDA_HOME}/pkgs
+    chmod -R 644 /etc/dask/
+
+
+
+    ########################
+    #  jupyter             #
+    ########################
+
+    python -m venv ${JUPYTER_HOME}
+    ${JUPYTER_HOME}/bin/python -m pip install --no-cache-dir \
+      rope pyflakes mccabe pycodestyle pydocstyle autopep8 yapf papermill memory-profiler \
+      python-language-server pyls-isort pyls-cwrap pyls-mypy pyls-black pyls-black-macchiato \
+      ipywidgets jupyterlab jupyter_bokeh jupyter_http_over_ws holoviews bokeh matplotlib plotly itk-meshtopolydata itkwidgets jupyterlab-git
+      # jupyterlab_code_formatter jupyter-tensorboard
+
+    source ${JUPYTER_HOME}/bin/activate
+    jupyter labextension install \
+      @jupyter-widgets/jupyterlab-manager @jupyterlab/celltags jupyter-matplotlib jupyterlab-datawidgets @bokeh/jupyter_bokeh @pyviz/jupyterlab_pyviz itkwidgets
+      # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
+    jupyter serverextension enable --py \
+      jupyter_http_over_ws # jupyterlab_code_formatter
+    jupyter lab build
+
+    ${CONDA_HOME}/envs/default/bin/python -m ipykernel install --name 'python3' --display-name "Python 3"
+    ${CONDA_HOME}/envs/tensorflow1/bin/python -m ipykernel install --name 'python3-tf1' --display-name "Python 3 (TensorFlow 1.x)"
+    jupyter kernelspec install ${CONDA_HOME}/envs/default/share/jupyter/kernels/xcpp17
+    deactivate
+
+    #pip install -U --no-cache-dir dask_labextension jupyterlab-nvdashboard
+    #jupyter labextension install itkwidgets @jupyterlab/git dask-labextension jupyterlab-nvdashboard
+
+    rm -rf ${JUPYTER_HOME}/share/jupyter/kernels/*
+    
+    chmod 644 ${JUPYTER_HOME}/etc/jupyter/jupyter_notebook_config.py ${JUPYTER_HOME}/etc/jupyter/nginx_jupyter.conf
+    ln -s ${JUPYTER_HOME}/etc/jupyter/nginx_jupyter.conf /etc/nginx/sites-available/jupyter.conf
+    #ln -s /etc/nginx/sites-available/jupyter.conf /etc/nginx/sites-enabled/
+    
+
+
+    ########################
+    #  coder               #
+    ########################
+
+    curl -fsSL https://code-server.dev/install.sh | sh -s -- --method=standalone --prefix=${CODER_HOME}
+    rm -rf /root/.config/code-server
+    
+    export PATH=${PATH}:${CODER_HOME}/bin
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cpptools
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cmake-tools
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension llvm-vs-code-extensions.vscode-clangd
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.java
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension vscjava.vscode-java-pack
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.python
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.anaconda-extension-pack
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.Go
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension James-Yu.latex-workshop
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension dbankier.vscode-instant-markdown
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension yzane.markdown-pdf
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-xml
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-yaml
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
+
+    chmod -R 644 ${CODER_HOME}/etc/
+    ln -s ${CODER_HOME}/etc/nginx_code-server.conf /etc/nginx/sites-available/code-server.conf
+    ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/
+
+    chmod -R 644 /etc/nginx/sites-*
+
+%environment
+    export JAVA_HOME=/usr/lib/jvm/default
+    export JRE_HOME=${JAVA_HOME}
+    export CONDA_HOME=/opt/conda
+    export JUPYTER_HOME=/opt/jupyter
+    export CODER_HOME=/opt/code-server
+    source /etc/profile.d/*
+    export JUPYTER_ALLOW_INSECURE_WRITES=true
+    export HPC_DIR=/hpcf/lsf/lsf_prod/10.1/linux3.10-glibc2.17-x86_64/bin
+    export PATH=${PATH}:${CODER_HOME}/bin:${HPC_DIR}
