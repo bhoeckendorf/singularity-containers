@@ -1,0 +1,49 @@
+bootstrap: localimage
+from: bh_arch.sif
+
+%runscript
+    exec /bin/sh "$@"
+
+%apprun registration
+    exec antsRegistration "$@"
+
+%apprun transformation
+    exec antsApplyTransforms "$@"
+
+%post
+    ANTS_HOME=/opt/ants
+    ANTSPATH=${ANTS_HOME}/bin
+    echo "export ANTS_HOME=${ANTS_HOME}" >>$SINGULARITY_ENVIRONMENT
+    echo "export ANTSPATH=${ANTSPATH}" >>$SINGULARITY_ENVIRONMENT
+    
+
+    pacman -Syu --noconfirm
+    pacman -S --needed --noconfirm \
+      base-devel openmp intel-tbb fftw cmake git
+
+    mkdir -p /var/cache/pacman/pkg
+    yes | pacman -Scc
+    rm -rf /var/cache/pacman/pkg
+
+
+    git clone https://github.com/ANTsX/ANTs.git
+    cd ANTs
+    git checkout v2.3.4
+    mkdir build
+    cd build
+
+    # GIT_PROTOCOL=FALSE tricks firewall by switching git:// to https://
+    cmake \
+      -DBUILD_TESTING=FALSE \
+      -DCMAKE_INSTALL_PREFIX=${ANTS_HOME} \
+      -DSuperBuild_ANTS_USE_GIT_PROTOCOL=FALSE \
+      ../
+    make -j 4
+    cd ANTS-build
+    make install
+
+    cd ../../../
+    rm -rf ANTs
+
+%environment
+    export PATH=${PATH}:${ANTSPATH}
