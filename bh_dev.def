@@ -54,6 +54,7 @@ from: bh_arch.sif
     python -c "import tensorflow as tf\nprint(tf.test.is_gpu_available())"
 
 %files
+    config/gitconfig                  /etc/gitconfig
     config/nginx.conf                 /etc/nginx/
     conda_envs/default.yml            /root/
     conda_envs/tensorflow1.yml        /root/
