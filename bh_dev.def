@@ -64,7 +64,7 @@ from: bh_arch.sif
     config/jobqueue.yml               /etc/dask/
     config/code-server_config.yml     /opt/code-server/etc/config.yaml
     config/nginx_code-server.conf     /opt/code-server/etc/
-    secrets/htpasswd                  /etc/nginx/.htpasswd  # printf "${username}:`openssl passwd -apr1`\n" >> /etc/nginx/.htpasswd
+    secrets/htpasswd                  /etc/nginx/.htpasswd
     secrets/dhparam.pem               /etc/ssl/
     secrets/bh-selfsigned.key         /etc/ssl/private/
     secrets/bh-selfsigned.crt         /etc/ssl/certs/
@@ -102,21 +102,22 @@ from: bh_arch.sif
     #  SSL & nginx         #
     ########################
 
-    # take DH params from secrets, don't generate or fetch
+    # take DH params, certificate and passwork from secrets, don't generate or fetch
     #curl https://ssl-config.mozilla.org/ffdhe4096.txt > /etc/ssl/dhparam.pem
     #openssl dhparam -out /etc/ssl/dhparam.pem 4096
 
-    # take certificate from secrets, don't generate
     #openssl req -x509 -nodes -sha256 -days 3650 -newkey rsa:4096 \
     #  -subj "/C=US/ST=Tennessee/L=Memphis/O=St Jude Children's Research Hospital/OU=Center for Bioimage Informatics/CN=/emailAddress=cbi@stjude.org" \
     #  -keyout /etc/ssl/private/bh-selfsigned.key -out /etc/ssl/certs/bh-selfsigned.crt
+
+    #printf "${username}:`openssl passwd -apr1`\n" >> /etc/nginx/.htpasswd
 
     # file permissions not ideal, but needed to run in container without root
     mkdir -p /run/nginx /etc/nginx/sites-available /etc/nginx/sites-enabled
     chmod -R 644 \
       /etc/ssl/dhparam.pem /etc/ssl/certs/bh-selfsigned.crt /etc/ssl/private/bh-selfsigned.key \
       /etc/nginx/nginx.conf /etc/nginx/sites-available/ /etc/nginx/sites-enabled/
-    chmod -R 666 /var/lib/nginx/ /var/log/nginx/ /run/nginx/
+    chmod -R 777 /var/lib/nginx/ /var/log/nginx/ /run/nginx/
 
 
 
