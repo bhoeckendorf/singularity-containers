@@ -54,6 +54,7 @@ from: bh_arch.sif
     python -c "import tensorflow as tf\nprint(tf.test.is_gpu_available())"
 
 %files
+    software/l_ipp_2020.1.217.tar     /root/
     config/gitconfig                  /etc/gitconfig
     config/nginx.conf                 /etc/nginx/
     conda_envs/default.yml            /root/
@@ -85,17 +86,38 @@ from: bh_arch.sif
 
     pacman -Syu --noconfirm
     pacman -S --needed --noconfirm \
-      base-devel gdb clang lldb openmp intel-tbb intel-mkl ccache cmake git tk \
-      blas cblas openblas lapack lapacke fftw hdf5 openimageio zlib sqlite gnuplot \
+      base-devel gdb clang lldb openmp intel-tbb intel-mkl ccache cmake git tk cpio \
+      blas cblas openblas lapack lapacke eigen fftw arrayfire hdf5 ffmpeg openimageio zlib sqlite gnuplot \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       go julia python python-pip \
-      nginx-mainline npm yarn
+      opencv nginx-mainline npm yarn
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
     rm -rf /var/cache/pacman/pkg
 
     source /etc/profile.d/jre.sh
+    
+
+    # Intel IPP
+    cd /root/
+    tar -xf l_ipp_2020.1.217.tar
+    cd l_ipp_2020.1.217/
+    printf "#
+ACCEPT_EULA=accept
+CONTINUE_WITH_OPTIONAL_ERROR=yes
+PSET_INSTALL_DIR=/opt/intel
+CONTINUE_WITH_INSTALLDIR_OVERWRITE=yes
+COMPONENTS=DEFAULTS
+PSET_MODE=install
+#CLUSTER_INSTALL_MACHINES_FILE=filepat
+SIGNING_ENABLED=yes
+ARCH_SELECTED=ALL
+" > bh_silent.cfg
+    ./install.sh -s bh_silent.cfg
+    cd ..
+    rm -rf l_ipp_2020.1.217.tar l_ipp_2020.1.217/
+    cd
 
 
 
