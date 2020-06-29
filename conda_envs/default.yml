@@ -170,7 +170,7 @@ dependencies:
     - memory-profiler
     - mxnet-cu101mkl
     - numbagg
-    - opencv-contrib-python-nonfree-headless
+    - opencv-contrib-python-headless
     - pyls-isort
     - pyls-cwrap
     - pyls-mypy
