@@ -90,7 +90,7 @@ from: bh_arch.sif
       blas cblas openblas lapack lapacke eigen fftw arrayfire hdf5 ffmpeg openimageio zlib sqlite gnuplot \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       go julia python python-pip \
-      opencv nginx-mainline npm yarn
+      opencv vtk nginx-mainline npm yarn
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
