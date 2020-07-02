@@ -215,8 +215,9 @@ ARCH_SELECTED=ALL
     
     export PATH=${PATH}:${CODER_HOME}/bin
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cpptools
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cmake-tools
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension llvm-vs-code-extensions.vscode-clangd
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension xaver.clang-format
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cmake-tools
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.java
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension vscjava.vscode-java-pack
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.python
@@ -245,3 +246,5 @@ ARCH_SELECTED=ALL
     export JUPYTER_ALLOW_INSECURE_WRITES=true
     export HPC_DIR=/hpcf/lsf/lsf_prod/10.1/linux3.10-glibc2.17-x86_64/bin
     export PATH=${PATH}:${CODER_HOME}/bin:${HPC_DIR}
+    export CC=clang
+    export CXX=clang++
