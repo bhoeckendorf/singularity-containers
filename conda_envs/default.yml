@@ -30,6 +30,7 @@ dependencies:
   - cffi
   - cling
   - colorcet
+  - conda-build
   - cppyy
   - cppyy-cling
   - cudatoolkit=10.1
