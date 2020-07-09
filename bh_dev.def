@@ -87,11 +87,11 @@ from: bh_arch.sif
     pacman -Syu --noconfirm
     pacman -S --needed --noconfirm \
       base-devel gdb clang lldb openmp intel-tbb intel-mkl ccache cmake git tk cpio \
-      blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite gnuplot \
+      blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      go julia python python-pip \
-      opencv vtk nginx-mainline npm yarn
+      go julia python python-pip npm yarn \
+      opencv vtk nginx-mainline gnuplot texlive-most biber
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
@@ -231,9 +231,9 @@ ARCH_SELECTED=ALL
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-yaml
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
 
+    chmod -R 777 ${CODER_HOME}
     chmod 775 ${CODER_HOME}/etc
     chmod 644 ${CODER_HOME}/etc/*
-    chmod -R 777 ${CODER_HOME}/extensions
     ln -s ${CODER_HOME}/etc/nginx_code-server.conf /etc/nginx/sites-available/code-server.conf
     ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/
     chmod -R 644 /etc/nginx/sites-*
