@@ -142,6 +142,7 @@ dependencies:
   - xlsxwriter
   - xlwt
   - xmltodict
+  - xrviz
   - yaml
   - yapf
   - z5py
