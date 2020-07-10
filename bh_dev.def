@@ -156,6 +156,7 @@ ARCH_SELECTED=ALL
 
     source /etc/profile.d/conda.sh
     conda update --all
+    conda install conda-build
 
     conda env create -f /root/default.yml
     conda activate default
