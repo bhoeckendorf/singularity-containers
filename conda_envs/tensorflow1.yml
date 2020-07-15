@@ -1,9 +1,8 @@
 name: tensorflow1
 channels:
-  - conda-forge
   - rapidsai
   - nvidia
-  - bokeh
+  - conda-forge
   - defaults
 dependencies:
   - ipykernel
