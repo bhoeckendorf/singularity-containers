@@ -181,7 +181,8 @@ ARCH_SELECTED=ALL
     ${JUPYTER_HOME}/bin/python -m pip install --no-cache-dir \
       rope pyflakes mccabe pycodestyle pydocstyle autopep8 yapf papermill memory-profiler xrviz \
       python-language-server pyls-isort pyls-cwrap pyls-mypy pyls-black pyls-black-macchiato \
-      ipywidgets jupyterlab jupyter_bokeh jupyter_http_over_ws holoviews bokeh matplotlib plotly itk-meshtopolydata itkwidgets jupyterlab-git
+      ipywidgets jupyterlab jupyter_bokeh jupyter_http_over_ws holoviews bokeh matplotlib plotly itk-meshtopolydata itkwidgets jupyterlab-git \
+      nteract_on_jupyter nteract-scrapbook
       # jupyterlab_code_formatter jupyter-tensorboard
 
     source ${JUPYTER_HOME}/bin/activate

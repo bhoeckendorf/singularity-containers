@@ -79,6 +79,8 @@ dependencies:
   - natsort
   - networkx
   - nibabel
+  - nteract_on_jupyter
+  - nteract-scrapbook
   - numba
   - numcodecs
   - numexpr
