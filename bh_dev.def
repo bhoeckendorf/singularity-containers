@@ -100,7 +100,7 @@ from: bh_arch.sif
 
     source /etc/profile.d/jre.sh
 
-    pip install --no-cache-dir apache-airflow dvc papermill
+    pip install --no-cache-dir dvc papermill  # apache-airflow
 
 
     # Intel IPP

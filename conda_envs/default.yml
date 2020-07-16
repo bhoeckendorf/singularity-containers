@@ -21,6 +21,7 @@ dependencies:
   - autopep8
   - isort
   - sphinx
+  - airflow
   - albumentations
   - bokeh
   - boto3
