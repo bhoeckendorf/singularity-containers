@@ -23,7 +23,7 @@ from: bh_arch.sif
 
 %apprun code
     source /etc/profile.d/*
-    code-server --config=${CODER_HOME}/etc/config.yaml --disable-telemetry /research/sharedresources/cbi/common/burkhard/
+    code-server --config=${CODER_HOME}/etc/config.yaml --disable-telemetry "$@"
 
 %apprun conda
     source /etc/profile.d/*
