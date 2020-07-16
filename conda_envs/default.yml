@@ -35,6 +35,17 @@ dependencies:
   - cupti
   - cupy
   - cython
+  - dagit
+  - dagster
+  - dagster-airflow
+  - dagster-bash
+  - dagster-cron
+  - dagster-dask
+  - dagster-pandas
+  - dagster-postgres
+  - dagster-shell
+  - dagster-slack
+  - dagster-ssh
   - dask
   - dask-distance
   - dask-funk
@@ -90,6 +101,7 @@ dependencies:
   - pillow
   - pims
   - plotly
+  - prefect
   - pycocotools
   - pycodestyle
   - pydicom
