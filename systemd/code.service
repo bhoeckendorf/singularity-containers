@@ -1,0 +1,14 @@
+[Unit]
+Description=Code Server
+After=network.target
+#StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+User=bhoecken
+ExecStart=/opt/singularity/bin/singularity run --nv -B /research --writable-tmpfs --app code /home/bhoecken/src/singularity-containers/bh_dev.sif /research/sharedresources/cbi/common/burkhard/
+
+[Install]
+WantedBy=multi-user.target
