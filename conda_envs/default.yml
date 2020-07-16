@@ -87,7 +87,6 @@ dependencies:
   - openpyxl
   - pandas
   - panel
-  - papermill
   - pillow
   - pims
   - plotly

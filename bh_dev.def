@@ -99,7 +99,7 @@ from: bh_arch.sif
 
     source /etc/profile.d/jre.sh
 
-    pip install --no-cache-dir dvc
+    pip install --no-cache-dir dvc papermill
 
 
     # Intel IPP
@@ -181,7 +181,7 @@ ARCH_SELECTED=ALL
 
     python -m venv ${JUPYTER_HOME}
     ${JUPYTER_HOME}/bin/python -m pip install --no-cache-dir \
-      rope pyflakes mccabe pycodestyle pydocstyle autopep8 yapf papermill memory-profiler xrviz \
+      rope pyflakes mccabe pycodestyle pydocstyle autopep8 yapf memory-profiler xrviz \
       python-language-server pyls-isort pyls-cwrap pyls-mypy pyls-black pyls-black-macchiato \
       ipywidgets jupyterlab jupyter_bokeh jupyter_http_over_ws holoviews bokeh matplotlib plotly itk-meshtopolydata itkwidgets jupyterlab-git \
       nteract_on_jupyter nteract-scrapbook
