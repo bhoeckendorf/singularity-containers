@@ -91,7 +91,8 @@ from: bh_arch.sif
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
       go julia python python-pip npm yarn \
-      opencv vtk nginx-mainline gnuplot texlive-most biber
+      opencv vtk nginx-mainline gnuplot texlive-most biber \
+      freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
@@ -99,7 +100,7 @@ from: bh_arch.sif
 
     source /etc/profile.d/jre.sh
 
-    pip install --no-cache-dir dvc papermill
+    pip install --no-cache-dir apache-airflow dvc papermill
 
 
     # Intel IPP
