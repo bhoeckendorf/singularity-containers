@@ -106,7 +106,7 @@ from: bh_arch.sif
     cd /root/
     tar -xf l_ipp_2020.1.217.tar
     cd l_ipp_2020.1.217/
-    printf "#
+    printf "\
 ACCEPT_EULA=accept
 CONTINUE_WITH_OPTIONAL_ERROR=yes
 PSET_INSTALL_DIR=/opt/intel
