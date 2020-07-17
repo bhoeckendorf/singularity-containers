@@ -198,7 +198,7 @@ dependencies:
     - ray
     - sentencepiece
     - untangle
-    - tensorflow>=2.1
+    - tensorflow>=2.2
     - tensorlayer
     - git+https://github.com/cocodataset/panopticapi.git
     - git+https://github.com/waspinator/pycococreator.git
