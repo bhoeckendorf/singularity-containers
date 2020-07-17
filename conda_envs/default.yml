@@ -86,6 +86,7 @@ dependencies:
   - menpo3d
   - menpodetect
   - menpofit
+  - mlflow
   - mrcfile
   - napari
   - natsort
