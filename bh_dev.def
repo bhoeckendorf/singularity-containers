@@ -100,9 +100,6 @@ from: bh_arch.sif
 
     source /etc/profile.d/jre.sh
 
-    pip install --no-cache-dir dvc papermill  # apache-airflow
-
-
     # Intel IPP
     cd /root/
     tar -xf l_ipp_2020.1.217.tar
@@ -122,6 +119,9 @@ ARCH_SELECTED=ALL
     cd ..
     rm -rf l_ipp_2020.1.217.tar l_ipp_2020.1.217/
     cd
+
+    # System Python
+    pip install --no-cache-dir dvc papermill  # apache-airflow
 
 
 
@@ -237,8 +237,7 @@ ARCH_SELECTED=ALL
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
 
     chmod -R 777 ${CODER_HOME}
-    chmod 775 ${CODER_HOME}/etc
-    chmod 644 ${CODER_HOME}/etc/*
+    chmod -R 644 ${CODER_HOME}/etc
     ln -s ${CODER_HOME}/etc/nginx_code-server.conf /etc/nginx/sites-available/code-server.conf
     ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/
     chmod -R 644 /etc/nginx/sites-*
