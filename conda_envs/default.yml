@@ -10,7 +10,7 @@ dependencies:
   - ipython
   - ipykernel
   - ipywidgets
-  - jupyterlab #<2
+  - jupyterlab
   - pynvml
   - itkwidgets
   - jupyterlab-git
@@ -21,7 +21,7 @@ dependencies:
   - autopep8
   - isort
   - sphinx
-  - airflow
+  #- airflow
   - albumentations
   - biopython
   - bokeh
@@ -37,17 +37,6 @@ dependencies:
   - cupti
   - cupy
   - cython
-  - dagit
-  - dagster
-  - dagster-airflow
-  - dagster-bash
-  - dagster-cron
-  - dagster-dask
-  - dagster-pandas
-  - dagster-postgres
-  - dagster-shell
-  - dagster-slack
-  - dagster-ssh
   - dask
   - dask-distance
   - dask-funk
@@ -191,11 +180,24 @@ dependencies:
     #- dask_labextension
     #- jupyterlab-nvdashboard
     #- jupyter-tensorboard
+    - apache-airflow
     - baal
     - dask-ndfilters
     - dask-ndfourier
     - dask-ndmeasure
     - dask-ndmorph
+    - dagit
+    - dagster
+    - dagster-airflow
+    - dagster-bash
+    - dagster-cron
+    - dagster-dask
+    - dagster-pandas
+    - dagster-postgres
+    - dagster-shell
+    - dagster-slack
+    - dagster-ssh
+    - dagstermill
     - flywheel-cli
     - flywheel-sdk
     - imagecodecs
