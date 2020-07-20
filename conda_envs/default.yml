@@ -23,6 +23,7 @@ dependencies:
   - sphinx
   - airflow
   - albumentations
+  - biopython
   - bokeh
   - boto3
   - bottleneck
@@ -128,8 +129,23 @@ dependencies:
   - pyzbar
   - rapids
   - rope
+  - scikit-bio
+  - scikit-build
+  - scikit-data
+  - scikit-fmm
+  - scikit-fuzzy
+  - scikit-garden
   - scikit-image
   - scikit-learn
+  - scikit-learn-extra
+  - scikit-mdr
+  - scikit-multiflow
+  - scikit-optimize
+  - scikit-plot
+  - scikit-surprise
+  - scikit-sparse
+  - scikit-umfpack
+  - scikit-video
   - scipy
   - seaborn
   - simpleitk
@@ -145,6 +161,7 @@ dependencies:
   - tetgen
   - tifffile
   - tqdm
+  - transforms3d
   - umap-learn
   - urllib3
   - vispy
