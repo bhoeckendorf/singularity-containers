@@ -237,7 +237,7 @@ ARCH_SELECTED=ALL
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
 
     chmod -R 777 ${CODER_HOME}
-    chmod -R 644 ${CODER_HOME}/etc
+    chmod 644 ${CODER_HOME}/etc/*.conf
     ln -s ${CODER_HOME}/etc/nginx_code-server.conf /etc/nginx/sites-available/code-server.conf
     ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/
     chmod -R 644 /etc/nginx/sites-*

@@ -93,7 +93,7 @@ dependencies:
   - pillow
   - pims
   - plotly
-  - prefect
+  #- prefect
   - pycocotools
   - pycodestyle
   - pydicom
@@ -206,6 +206,7 @@ dependencies:
     - mxnet-cu101mkl
     - numbagg
     - opencv-contrib-python-headless
+    - prefect[templates,viz]
     - pyls-isort
     - pyls-cwrap
     - pyls-mypy
