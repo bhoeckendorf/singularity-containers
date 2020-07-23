@@ -4,10 +4,10 @@ from: bh_arch.sif
 %runscript
     exec /bin/sh "$@"
 
-%apprun registration
+%apprun antsRegistration
     exec antsRegistration "$@"
 
-%apprun transformation
+%apprun antsApplyTransforms
     exec antsApplyTransforms "$@"
 
 %post
@@ -19,7 +19,7 @@ from: bh_arch.sif
 
     pacman -Syu --noconfirm
     pacman -S --needed --noconfirm \
-      base-devel openmp intel-tbb fftw cmake git
+      base-devel openmp intel-tbb intel-mkl fftw cmake git
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
@@ -46,4 +46,6 @@ from: bh_arch.sif
     rm -rf ANTs
 
 %environment
+    export ANTS_HOME=/opt/ants
+    export ANTSPATH=${ANTS_HOME}/bin
     export PATH=${PATH}:${ANTSPATH}
