@@ -19,7 +19,9 @@ from: bh_arch.sif
 
     pacman -Syu --noconfirm
     pacman -S --needed --noconfirm \
-      base-devel openmp intel-tbb intel-mkl fftw cmake git
+      base-devel git cmake openmp intel-tbb \
+      intel-mkl fftw blas cblas openblas lapack lapacke eigen \
+      hdf5 openimageio zlib
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
@@ -38,7 +40,7 @@ from: bh_arch.sif
       -DCMAKE_INSTALL_PREFIX=${ANTS_HOME} \
       -DSuperBuild_ANTS_USE_GIT_PROTOCOL=FALSE \
       ../
-    make -j 4
+    make -j4
     cd ANTS-build
     make install
 
