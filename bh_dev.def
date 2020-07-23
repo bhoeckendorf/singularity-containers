@@ -158,6 +158,7 @@ ARCH_SELECTED=ALL
     ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 
     source /etc/profile.d/conda.sh
+    conda config --add channels conda-forge
     conda update --all
     conda install conda-build
 
