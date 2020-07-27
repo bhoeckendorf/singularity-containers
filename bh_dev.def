@@ -19,11 +19,11 @@ from: bh_arch.sif
 %apprun jupyter
     source /etc/profile.d/*
     source ${JUPYTER_HOME}/bin/activate
-    jupyter lab --config=${JUPYTER_HOME}/etc/jupyter/jupyter_notebook_config.py "$@"
+    jupyter lab --config=${JUPYTER_HOME}/etc/jupyter/jupyter_notebook_config.py --notebook-dir=${MYDIR} "$@"
 
 %apprun code
     source /etc/profile.d/*
-    code-server --config=${CODER_HOME}/etc/config.yaml --disable-telemetry "$@"
+    code-server --config=${CODER_HOME}/etc/config.yaml --disable-telemetry ${MYDIR}
 
 %apprun conda
     source /etc/profile.d/*
@@ -57,6 +57,7 @@ from: bh_arch.sif
     software/l_ipp_2020.1.217.tar     /root/
     config/gitconfig                  /etc/gitconfig
     config/nginx.conf                 /etc/nginx/
+    config/condarc                    /etc/conda/condarc
     conda_envs/default.yml            /root/
     conda_envs/tensorflow1.yml        /root/
     config/jupyter_notebook_config.py /opt/jupyter/etc/jupyter/
@@ -72,6 +73,8 @@ from: bh_arch.sif
     secrets/bh-selfsigned.crt         /etc/ssl/certs/
 
 %post
+    export CBIDIR=/research/sharedresources/cbi
+    export MYDIR=${CBIDIR}/common/burkhard
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
@@ -90,7 +93,7 @@ from: bh_arch.sif
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      go julia python python-pip npm yarn \
+      go julia python python-pip npm yarn doxygen \
       opencv vtk nginx-mainline gnuplot texlive-most biber \
       freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
@@ -121,7 +124,14 @@ ARCH_SELECTED=ALL
     cd
 
     # System Python
-    pip install --no-cache-dir dvc papermill  # apache-airflow
+    pip install --no-cache-dir \
+      breathe exhale papermill \
+      autopep8 black flake8 isort mccabe pycodestyle pydocstyle pyflakes pygments pylama pylama_pylint pylint \
+      pyls-black pyls-mypy pytest pytest-flake8 pytest-mccabe pytest-mock pytest-mpl pytest-mypy \
+      pytest-pycodestyle pytest-pylint rope yapf pyls-isort pyls-cwrap pyls-black-macchiato \
+      sphinx sphinx-argparse sphinx-autoapi sphinx-autobuild sphinx-autodoc-typehints \
+      sphinx-automodapi sphinx-click sphinx-issues sphinx-jinja sphinx-markdown-tables \
+      sphinx-math-dollar
 
 
 
@@ -153,26 +163,36 @@ ARCH_SELECTED=ALL
     ########################
 
     curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p ${CONDA_HOME}
+    bash Miniconda3-latest-Linux-x86_64.sh -b -u -p ${CONDA_HOME}
     rm Miniconda3-latest-Linux-x86_64.sh
     ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 
     source /etc/profile.d/conda.sh
-    conda config --add channels conda-forge
+
+    # Setup conda envs parent, pkg cache, local conda channel
+    # Safe to do if already setup. Disabled because MYDIR isn't mounted during build.
+    # mkdir -p \
+    #   ${MYDIR}/var/conda/channel/linux-64 \
+    #   ${MYDIR}/var/conda/channel/noarch \
+    #   ${MYDIR}/var/conda/envs \
+    #   ${MYDIR}/var/conda/pkgs
+    # conda index ${MYDIR}/var/conda/channel
+
     conda update --all
-    conda install conda-build
+    conda install conda-build conda-verify
 
     conda env create -f /root/default.yml
     conda activate default
-    pip install --no-cache-dir detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/index.html
     pip install --no-cache-dir --no-deps cellpose
     conda deactivate
 
-    conda create --name tensorflow1 --clone default
-    conda env update --name tensorflow1 --file /root/tensorflow1.yml
-    
+    conda env create -f /root/tensorflow1.yml
+
+    # Enable conda channels, envs, pkgs. Initially disabled because paths aren't mounted during build.
+    sed -i "s/  # -/  -/" /etc/conda/condarc
+
     rm /root/default.yml /root/tensorflow1.yml
-    chmod -R 755 ${CONDA_HOME}/pkgs
+    chmod -R 777 /etc/conda/condarc ${CONDA_HOME}/pkgs
     chmod -R 644 /etc/dask/
 
 
@@ -183,27 +203,25 @@ ARCH_SELECTED=ALL
 
     python -m venv ${JUPYTER_HOME}
     ${JUPYTER_HOME}/bin/python -m pip install --no-cache-dir \
-      rope pyflakes mccabe pycodestyle pydocstyle autopep8 yapf memory-profiler xrviz \
-      python-language-server pyls-isort pyls-cwrap pyls-mypy pyls-black pyls-black-macchiato \
-      ipywidgets jupyterlab jupyter_bokeh jupyter_http_over_ws holoviews bokeh matplotlib plotly itk-meshtopolydata itkwidgets jupyterlab-git \
-      nteract_on_jupyter nteract-scrapbook
+      memory-profiler xrviz python-language-server \
+      ipywidgets jupyterlab jupyter_bokeh jupyter_http_over_ws holoviews bokeh matplotlib plotly itk-meshtopolydata itkwidgets jupyterlab-git jupyterlab-nvdashboard jupyter-dash
       # jupyterlab_code_formatter jupyter-tensorboard
 
     source ${JUPYTER_HOME}/bin/activate
     jupyter labextension install \
-      @jupyter-widgets/jupyterlab-manager @jupyterlab/celltags jupyter-matplotlib jupyterlab-datawidgets @bokeh/jupyter_bokeh @pyviz/jupyterlab_pyviz itkwidgets
+      @jupyter-widgets/jupyterlab-manager @jupyterlab/celltags jupyter-matplotlib jupyterlab-datawidgets @bokeh/jupyter_bokeh @pyviz/jupyterlab_pyviz itkwidgets jupyterlab-nvdashboard
       # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
     jupyter serverextension enable --py \
       jupyter_http_over_ws # jupyterlab_code_formatter
     jupyter lab build
 
-    ${CONDA_HOME}/envs/default/bin/python -m ipykernel install --name 'python3' --display-name "Python 3"
-    ${CONDA_HOME}/envs/tensorflow1/bin/python -m ipykernel install --name 'python3-tf1' --display-name "Python 3 (TensorFlow 1.x)"
-    jupyter kernelspec install ${CONDA_HOME}/envs/default/share/jupyter/kernels/xcpp17
+    #${CONDA_HOME}/envs/default/bin/python -m ipykernel install --name 'python3' --display-name "Python 3"
+    #${CONDA_HOME}/envs/tensorflow1/bin/python -m ipykernel install --name 'python3-tf1' --display-name "Python 3 (TensorFlow 1.x)"
+    #jupyter kernelspec install ${CONDA_HOME}/envs/default/share/jupyter/kernels/xcpp17
     deactivate
 
-    #pip install -U --no-cache-dir dask_labextension jupyterlab-nvdashboard
-    #jupyter labextension install itkwidgets @jupyterlab/git dask-labextension jupyterlab-nvdashboard
+    #pip install -U --no-cache-dir dask_labextension (jupyterlab-bokeh-server?)
+    #jupyter labextension install dask-labextension (jupyterlab-bokeh-server?)
 
     rm -rf ${JUPYTER_HOME}/share/jupyter/kernels/*
     
@@ -244,6 +262,8 @@ ARCH_SELECTED=ALL
     chmod -R 644 /etc/nginx/sites-*
 
 %environment
+    export CBIDIR=/research/sharedresources/cbi
+    export MYDIR=${CBIDIR}/common/burkhard
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda

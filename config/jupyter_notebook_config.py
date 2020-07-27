@@ -263,7 +263,7 @@ c.NotebookApp.keyfile = '/etc/ssl/private/bh-selfsigned.key'
 #c.NotebookApp.nbserver_extensions = {}
 
 ## The directory to use for notebooks and kernels.
-c.NotebookApp.notebook_dir = '/research/sharedresources/cbi/common/burkhard'
+#c.NotebookApp.notebook_dir = ''
 
 ## Whether to open in a browser after starting. The specific browser used is
 #  platform dependent and determined by the python standard library `webbrowser`

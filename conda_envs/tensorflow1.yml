@@ -1,13 +1,209 @@
-name: tensorflow1
-channels:
-  - rapidsai
-  - nvidia
-  - conda-forge
-  - defaults
+name: tendorflow1
 dependencies:
+  - airflow
+  - albumentations
+  - biopython
+  - bokeh
+  - boto3
+  - bottleneck
+  - cffi
+  - cling
+  - cloudpickle
+  - colorcet
+  - cppyy
+  - cppyy-cling
+  - cudatoolkit =10.0.*
+  - cupti
+  - cupy >=7.6
+  - cython
+  - dask >=2.19
+  - dask-cuda
+  - dask-distance
+  - dask-funk
+  - dask-gateway
+  - dask-gateway-server
+  - dask-glm
+  - dask-image
+  - dask-imread
+  - dask-jobqueue
+  - dask-memusage
+  - dask-ml
+  - dask-searchcv
+  - dask-xgboost
+  - datashader
+  - discretize
+  - distributed
+  - ffmpeg-python
+  - google-cloud-storage
+  - h5py
+  - holoviews
+  - hvplot
+  - imagecodecs
+  - imageio
+  - imageio-ffmpeg
+  - intake
+  - intake-avro
+  - intake-parquet
+  - intake-sql
+  - intake-xarray
   - ipykernel
-  - tensorflow-gpu=1
+  - ipython
+  - ipywidgets
+  - itk >=5
+  - itkwidgets
+  - javabridge
+  - jsonpatch
+  - jupyter_bokeh
+  - lmdb
+  - mayavi
+  - matplotlib >=3.2
+  - matplotlib-scalebar
+  - memory_profiler
+  - menpo
+  - menpo3d
+  - menpodetect
+  - menpofit
+  - metaflow
+  - mlflow
+  - mrcfile
+  - mypy
+  - napari
+  - natsort
+  - neptune-client
+  - neptune-notebooks
+  - networkx
+  - nibabel
+  - numba
+  - numba-scipy
+  - numcodecs
+  - numexpr
+  - numpy >=1.18
+  - opencv >=4.2
+  - openpyxl
+  - pandas >=1.0.4
+  - pandas-datareader
+  - pandas_ml
+  - pandasql
+  - panel
+  - pillow
+  - pims
+  - plotly
+  # - py-openimageio
+  - pyarrow
+  - pybind11
+  - pycocotools
+  - pydicom
+  - pyfftw
+  - pynrrd
+  - pynvml
+  - pyodbc
+  - pyopengl
+  - pyqt
+  - pyqtgraph
+  - pyside2
+  - pysoundfile
+  - pytables
+  - pytesseract
+  - python =3.7.*
+  - python-dateutil
+  - python-language-server
+  - pyvista
+  - pyviz_comms
+  - pywavelets
+  # - pyxtensor
+  - pyyaml
+  - pyzbar
+  # - rapids >=0.14
+  # - rapids-xgboost
+  - roifile
+  - scikit-bio
+  - scikit-build
+  - scikit-data
+  - scikit-fmm
+  - scikit-fuzzy
+  - scikit-garden
+  - scikit-image >=0.16
+  - scikit-learn >=0.23
+  - scikit-learn-extra
+  - scikit-mdr
+  - scikit-multiflow
+  - scikit-optimize
+  - scikit-plot
+  - scikit-surprise
+  - scikit-sparse
+  - scikit-umfpack
+  - scipy >=1.5
+  - seaborn
+  - sentencepiece
+  - simpleitk >=1.2.4
+  - slicerator
+  - sox
+  - sqlalchemy
+  - sqlalchemy-utils
+  - sqlite
+  - statsmodels
+  - sympy
+  - tabulate
+  - tensorflow-gpu >=1.15,<2
+  - tetgen
+  - tifffile
+  - toml
+  - tqdm
+  - transforms3d
+  - umap-learn
+  - untangle
+  - urllib3
+  - vispy
+  - vtk
+  - xarray >=0.15
+  - xarray-extras
+  - xarray-spatial
+  - xgboost
+  - xlrd
+  - xlsxwriter
+  - xlwt
+  - xmltodict
+  - xrviz
+  - xtensor
+  - xtensor-blas
+  - xtensor-fftw
+  # - xtensor-io
+  - xtensor-python
+  - yaml
+  - z5py
+  - zarr
+  - zbarlight
   - pip
   - pip:
-    - csbdeep
-    - n2v
+    # - jupyter_http_over_ws
+    # - dask_labextension
+    # - jupyter-tensorboard
+    - arrayfire
+    - augment-nd
+    - baal
+    - dagit
+    - dagster
+    - dagster-airflow
+    - dagster-bash
+    - dagster-cron
+    - dagster-dask
+    - dagster-pandas
+    - dagster-postgres
+    - dagster-shell
+    - dagster-slack
+    - dagster-ssh
+    - dagstermill
+    - flywheel-cli
+    - flywheel-sdk
+    - numbagg
+    - prefect[templates,viz]
+    - pymeshfix
+    - python-bioformats
+    - ray
+    # - scikit-cuda  # (outdated?)
+    - tensorlayer[all] ==1.11.0
+    - trains
+    - trains-agent
+    - git+https://github.com/cocodataset/panopticapi.git
+    - git+https://github.com/waspinator/pycococreator.git
+    - git+https://github.com/bhoeckendorf/pyklb.git@skbuild

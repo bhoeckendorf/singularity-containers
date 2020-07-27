@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=5
 User=bhoecken
-ExecStart=/opt/singularity/bin/singularity run --nv -B /research --writable-tmpfs --app code /home/bhoecken/src/singularity-containers/bh_dev.sif /research/sharedresources/cbi/common/burkhard/
+ExecStart=/opt/singularity/bin/singularity run --nv -B /research --writable-tmpfs --app code /home/bhoecken/src/singularity-containers/bh_dev.sif
 
 [Install]
 WantedBy=multi-user.target
