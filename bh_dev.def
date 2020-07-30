@@ -54,7 +54,7 @@ from: bh_arch.sif
     python -c "import tensorflow as tf\nprint(tf.test.is_gpu_available())"
 
 %files
-    software/l_ipp_2020.1.217.tar     /root/
+    software/l_ipp_2020.2.254.tgz     /root/
     config/gitconfig                  /etc/gitconfig
     config/nginx.conf                 /etc/nginx/
     config/condarc                    /etc/conda/condarc
@@ -105,8 +105,8 @@ from: bh_arch.sif
 
     # Intel IPP
     cd /root/
-    tar -xf l_ipp_2020.1.217.tar
-    cd l_ipp_2020.1.217/
+    tar -xzf l_ipp_2020.2.254.tgz
+    cd l_ipp_2020.2.254/
     printf "\
 ACCEPT_EULA=accept
 CONTINUE_WITH_OPTIONAL_ERROR=yes
@@ -120,7 +120,7 @@ ARCH_SELECTED=ALL
 " > bh_silent.cfg
     ./install.sh -s bh_silent.cfg
     cd ..
-    rm -rf l_ipp_2020.1.217.tar l_ipp_2020.1.217/
+    rm -rf l_ipp_2020.2.254.tgz l_ipp_2020.2.254/
     cd
 
     # System Python
