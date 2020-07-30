@@ -4,10 +4,21 @@ dependencies:
   - albumentations
   - biopython
   - bokeh
+  - botorch
   - boto3
   - bottleneck
   - captum
   - cffi
+  - click
+  - click-aliases
+  - click-completion
+  - click-config-file
+  - click-help-colors
+  - click-log
+  - click-option-group
+  - click-params
+  - click-plugins
+  - click-spinner
   - cling
   - cloudpickle
   - colorcet
@@ -40,13 +51,12 @@ dependencies:
   - h5py
   - holoviews
   - hvplot
+  - ignite
   - imagecodecs
   - imageio
   - imageio-ffmpeg
   - intake
-  - intake-avro
   - intake-parquet
-  - intake-sql
   - intake-xarray
   - ipykernel
   - ipython
@@ -76,7 +86,6 @@ dependencies:
   - networkx
   - nibabel
   - numba
-  - numba-scipy
   - numcodecs
   - numexpr
   - numpy >=1.18
@@ -110,6 +119,7 @@ dependencies:
   - python-dateutil
   - python-language-server
   - pytorch >=1.5.1
+  - pytorch-lightning
   - pyvista
   - pyviz_comms
   - pywavelets
@@ -154,6 +164,8 @@ dependencies:
   - tifffile
   - toml
   - torchaudio
+  - torch-model-archiver
+  # - torchserve            # neetd py38
   - torchtext
   - torchvision
   - tqdm
@@ -219,3 +231,5 @@ dependencies:
     - git+https://github.com/waspinator/pycococreator.git
     - https://github.com/ANTsX/ANTsPy/releases/download/v0.2.0/antspyx-0.2.0-cp37-cp37m-linux_x86_64.whl
     - git+https://github.com/bhoeckendorf/pyklb.git@skbuild
+    # ad-hoc fix for metaflow lint
+    - isort <5

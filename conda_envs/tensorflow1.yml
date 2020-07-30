@@ -1,4 +1,4 @@
-name: tendorflow1
+name: tensorflow1
 dependencies:
   - airflow
   - albumentations
@@ -7,6 +7,16 @@ dependencies:
   - boto3
   - bottleneck
   - cffi
+  - click
+  - click-aliases
+  - click-completion
+  - click-config-file
+  - click-help-colors
+  - click-log
+  - click-option-group
+  - click-params
+  - click-plugins
+  - click-spinner
   - cling
   - cloudpickle
   - colorcet
@@ -42,9 +52,7 @@ dependencies:
   - imageio
   - imageio-ffmpeg
   - intake
-  - intake-avro
   - intake-parquet
-  - intake-sql
   - intake-xarray
   - ipykernel
   - ipython
@@ -74,7 +82,6 @@ dependencies:
   - networkx
   - nibabel
   - numba
-  - numba-scipy
   - numcodecs
   - numexpr
   - numpy >=1.18
@@ -207,3 +214,5 @@ dependencies:
     - git+https://github.com/cocodataset/panopticapi.git
     - git+https://github.com/waspinator/pycococreator.git
     - git+https://github.com/bhoeckendorf/pyklb.git@skbuild
+    # ad-hoc fix for metaflow lint
+    - isort <5
