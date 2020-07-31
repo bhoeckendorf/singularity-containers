@@ -1,7 +1,7 @@
 name: default
 dependencies:
-  - airflow
   - albumentations
+  # - argparse
   - biopython
   - bokeh
   - botorch
@@ -47,6 +47,7 @@ dependencies:
   - discretize
   - distributed
   - ffmpeg-python
+  - findspark
   - google-cloud-storage
   - h5py
   - holoviews
@@ -57,15 +58,13 @@ dependencies:
   - imageio-ffmpeg
   - intake
   - intake-parquet
+  - intake-spark
   - intake-xarray
-  - ipykernel
   - ipython
-  - ipywidgets
   - itk >=5
-  - itkwidgets
+  - itk-meshtopolydata
   - javabridge
   - jsonpatch
-  - jupyter_bokeh
   - lmdb
   - mayavi
   - matplotlib >=3.2
@@ -75,14 +74,10 @@ dependencies:
   - menpo3d
   - menpodetect
   - menpofit
-  - metaflow
-  - mlflow
   - mrcfile
   - mypy
   - napari
   - natsort
-  - neptune-client
-  - neptune-notebooks
   - networkx
   - nibabel
   - numba
@@ -99,7 +94,8 @@ dependencies:
   - pillow
   - pims
   - plotly
-  # - py-openimageio
+  - py4j
+# - py-openimageio
   - pyarrow
   - pybind11
   - pycocotools
@@ -113,9 +109,13 @@ dependencies:
   - pyqtgraph
   - pyside2
   - pysoundfile
+  - pyspark
+  - pyspark-flame
+  - pyspark-stubs
   - pytables
   - pytesseract
   - python =3.7.*
+  - python-confluent-kafka
   - python-dateutil
   - python-language-server
   - pytorch >=1.5.1
@@ -152,6 +152,7 @@ dependencies:
   - skorch
   - slicerator
   - sox
+  - sparkhpc
   - sqlalchemy
   - sqlalchemy-utils
   - sqlite
@@ -165,7 +166,7 @@ dependencies:
   - toml
   - torchaudio
   - torch-model-archiver
-  # - torchserve            # neetd py38
+  # - torchserve
   - torchtext
   - torchvision
   - tqdm
@@ -195,14 +196,87 @@ dependencies:
   - z5py
   - zarr
   - zbarlight
+# Utilities
+  - autopep8
+  - black
+  - breathe
+  - conda-build
+  - conda-verify
+  - flake8
+  - isort =4
+  - mccabe
+  - papermill
+  - pycodestyle
+  - pydocstyle
+  - pyflakes
+  - pylama
+  - pylint
+  - pyls-black
+  - pyls-mypy
+  - pytest
+  - pytest-flake8
+  - pytest-mccabe
+  - pytest-mock
+  - pytest-mpl
+  - pytest-mypy
+  - pytest-pylint
+  - rope
+  - sphinx
+  - sphinx-argparse
+  - sphinx-autoapi
+  - sphinx-autobuild
+  - sphinx-autodoc-typehints
+  - sphinx-automodapi
+  - sphinx-click
+  - sphinx-issues
+  - sphinx-jinja
+  - sphinx-markdown-tables
+  - sphinx-math-dollar
+  - yapf
+# Jupyter
+  - itkwidgets
+  # - ipykernel
+  - ipywidgets
+  # - jupyter_bokeh
+  - jupyterlab
+  - jupyterlab-git
+  - nb_conda_kernels
+# Frameworks
+  - airflow
+  - metaflow
+  - mlflow
+  - neptune-client
+  - neptune-notebooks
+# pip
   - pip
   - pip:
-    # - jupyter_http_over_ws
-    # - dask_labextension
-    # - jupyter-tensorboard
+    - antspyx
     - arrayfire
     - augment-nd
     - baal
+    - faust
+    - flywheel-cli
+    - flywheel-sdk
+    - mxnet_cu101mkl
+    - numbagg
+    - pymeshfix
+    - python-bioformats
+    - ray
+    # - scikit-cuda  # (outdated?)
+    - tensorlayer[all]
+    - git+https://github.com/cocodataset/panopticapi.git
+    - git+https://github.com/waspinator/pycococreator.git
+    - git+https://github.com/bhoeckendorf/pyklb.git@skbuild
+# Utilities
+    - exhale
+    - pyls-isort
+    - pytest-pycodestyle
+# Jupyter
+    # - dask_labextension
+    - jupyter_http_over_ws
+    # - jupyter-tensorboard
+    # nvdashboard, dash, code-fromatter, tensorboard
+# Frameworks
     - dagit
     - dagster
     - dagster-airflow
@@ -211,25 +285,11 @@ dependencies:
     - dagster-dask
     - dagster-pandas
     - dagster-postgres
+    - dagster-pyspark
     - dagster-shell
     - dagster-slack
     - dagster-ssh
     - dagstermill
-    - flywheel-cli
-    - flywheel-sdk
-    - mxnet_cu101mkl
-    - numbagg
     - prefect[templates,viz]
-    - pymeshfix
-    - python-bioformats
-    - ray
-    # - scikit-cuda  # (outdated?)
-    - tensorlayer[all]
     - trains
     - trains-agent
-    - git+https://github.com/cocodataset/panopticapi.git
-    - git+https://github.com/waspinator/pycococreator.git
-    - https://github.com/ANTsX/ANTsPy/releases/download/v0.2.0/antspyx-0.2.0-cp37-cp37m-linux_x86_64.whl
-    - git+https://github.com/bhoeckendorf/pyklb.git@skbuild
-    # ad-hoc fix for metaflow lint
-    - isort <5

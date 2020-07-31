@@ -3,65 +3,66 @@ from: bh_arch.sif
 
 %runscript
     source /etc/profile.d/*
-    conda activate default
-    python "$@"
+    ${CONDA_HOME}/bin/python "$@"
 
 %apprun python
     source /etc/profile.d/*
-    conda activate default
-    python "$@"
+    ${CONDA_HOME}/bin/python "$@"
 
 %apprun ipython
     source /etc/profile.d/*
-    conda activate default
-    ipython "$@"
+    ${CONDA_HOME}/bin/ipython "$@"
 
 %apprun jupyter
     source /etc/profile.d/*
-    source ${JUPYTER_HOME}/bin/activate
-    jupyter lab --config=${JUPYTER_HOME}/etc/jupyter/jupyter_notebook_config.py --notebook-dir=${MYDIR} "$@"
+    ${CONDA_HOME}/bin/jupyter lab \
+      --config=${JUPYTER_HOME}/etc/jupyter/jupyter_notebook_config.py \
+      --notebook-dir=${MYDIR} \
+      "$@"
 
 %apprun code
     source /etc/profile.d/*
-    code-server --config=${CODER_HOME}/etc/config.yaml --disable-telemetry ${MYDIR}
+    code-server \
+      --config=${CODER_HOME}/etc/config.yaml \
+      --disable-telemetry \
+      ${MYDIR}
 
 %apprun conda
     source /etc/profile.d/*
-    exec conda "$@"
+    ${CONDA_HOME}/bin/conda "$@"
 
 %apprun pip
     source /etc/profile.d/*
-    exec pip "$@"
+    ${CONDA_HOME}/bin/pip "$@"
 
 %apprun tensorboard
     source /etc/profile.d/*
-    conda activate default
-    tensorboard --logdir="$@"
+    ${CONDA_HOME}/bin/tensorboard --logdir="$@"
 
 %apprun pytorch_test_gpu
     source /etc/profile.d/*
-    conda activate default
-    python -c "import torch\nprint(torch.cuda.is_available())"
+    ${CONDA_HOME}/bin/python -c \
+      "import torch\nprint(torch.cuda.is_available())"
 
 %apprun tensorflow_test_gpu
     source /etc/profile.d/*
-    conda activate default
-    python -c "import tensorflow as tf\nprint(tf.config.list_physical_devices('GPU'))"
+    ${CONDA_HOME}/bin/python -c \
+      "import tensorflow as tf\nprint(tf.config.list_physical_devices('GPU'))"
 
 %apprun tensorflow1_test_gpu
     source /etc/profile.d/*
-    conda activate tensorflow1
-    python -c "import tensorflow as tf\nprint(tf.test.is_gpu_available())"
+    ${CONDA_HOME}/bin/python -c \
+      "import tensorflow as tf\nprint(tf.test.is_gpu_available())"
 
 %files
     software/l_ipp_2020.2.254.tgz     /root/
     config/gitconfig                  /etc/gitconfig
     config/nginx.conf                 /etc/nginx/
     config/condarc                    /etc/conda/condarc
-    conda_envs/default.yml            /root/
+    conda_envs/base.yml               /root/
     conda_envs/tensorflow1.yml        /root/
-    config/jupyter_notebook_config.py /opt/jupyter/etc/jupyter/
-    config/nginx_jupyter.conf         /opt/jupyter/etc/jupyter/
+    config/jupyter_notebook_config.py /opt/conda/etc/jupyter/
+    config/nginx_jupyter.conf         /opt/conda/etc/jupyter/
     config/preload_jupyter.py         /etc/dask/
     config/distributed.yml            /etc/dask/
     config/jobqueue.yml               /etc/dask/
@@ -78,7 +79,6 @@ from: bh_arch.sif
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
-    export JUPYTER_HOME=/opt/jupyter
     export CODER_HOME=/opt/code-server
 
 
@@ -93,8 +93,7 @@ from: bh_arch.sif
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      go julia python python-pip npm yarn doxygen \
-      opencv vtk nginx-mainline gnuplot texlive-most biber \
+      go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber \
       freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
     mkdir -p /var/cache/pacman/pkg
@@ -123,16 +122,6 @@ ARCH_SELECTED=ALL
     rm -rf l_ipp_2020.2.254.tgz l_ipp_2020.2.254/
     cd
 
-    # System Python
-    pip install --no-cache-dir \
-      breathe exhale papermill \
-      autopep8 black flake8 isort mccabe pycodestyle pydocstyle pyflakes pygments pylama pylama_pylint pylint \
-      pyls-black pyls-mypy pytest pytest-flake8 pytest-mccabe pytest-mock pytest-mpl pytest-mypy \
-      pytest-pycodestyle pytest-pylint rope yapf pyls-isort pyls-cwrap pyls-black-macchiato \
-      sphinx sphinx-argparse sphinx-autoapi sphinx-autobuild sphinx-autodoc-typehints \
-      sphinx-automodapi sphinx-click sphinx-issues sphinx-jinja sphinx-markdown-tables \
-      sphinx-math-dollar
-
 
 
     ########################
@@ -159,7 +148,7 @@ ARCH_SELECTED=ALL
 
 
     ########################
-    #  conda               #
+    #  conda & Jupyter     #
     ########################
 
     curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -179,56 +168,29 @@ ARCH_SELECTED=ALL
     # conda index ${MYDIR}/var/conda/channel
 
     conda update --all
-    conda install conda-build conda-verify
+    conda env update -f /root/base.yml
+    ${CONDA_HOME}/bin/pip install --no-cache-dir --no-deps cellpose
 
-    conda env create -f /root/default.yml
-    conda activate default
-    pip install --no-cache-dir --no-deps cellpose
-    conda deactivate
+    ${CONDA_HOME}/bin/jupyter labextension install \
+      @jupyter-widgets/jupyterlab-manager @jupyterlab/celltags jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets  # @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
+      # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
+    ${CONDA_HOME}/bin/jupyter serverextension enable --py \
+      jupyter_http_over_ws # jupyterlab_code_formatter
+    ${CONDA_HOME}/bin/jupyter lab build
+
+    chmod 644 ${CONDA_HOME}/etc/jupyter/jupyter_notebook_config.py ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf
+    ln -s ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf /etc/nginx/sites-available/jupyter.conf
+    #ln -s /etc/nginx/sites-available/jupyter.conf /etc/nginx/sites-enabled/
 
     conda env create -f /root/tensorflow1.yml
 
     # Enable conda channels, envs, pkgs. Initially disabled because paths aren't mounted during build.
     sed -i "s/  # -/  -/" /etc/conda/condarc
 
-    rm /root/default.yml /root/tensorflow1.yml
+    rm /root/base.yml /root/tensorflow1.yml
     chmod -R 777 /etc/conda/condarc ${CONDA_HOME}/pkgs
     chmod -R 644 /etc/dask/
 
-
-
-    ########################
-    #  jupyter             #
-    ########################
-
-    python -m venv ${JUPYTER_HOME}
-    ${JUPYTER_HOME}/bin/python -m pip install --no-cache-dir \
-      memory-profiler xrviz python-language-server \
-      ipywidgets jupyterlab jupyter_bokeh jupyter_http_over_ws holoviews bokeh matplotlib plotly itk-meshtopolydata itkwidgets jupyterlab-git jupyterlab-nvdashboard jupyter-dash
-      # jupyterlab_code_formatter jupyter-tensorboard
-
-    source ${JUPYTER_HOME}/bin/activate
-    jupyter labextension install \
-      @jupyter-widgets/jupyterlab-manager @jupyterlab/celltags jupyter-matplotlib jupyterlab-datawidgets @bokeh/jupyter_bokeh @pyviz/jupyterlab_pyviz itkwidgets jupyterlab-nvdashboard
-      # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
-    jupyter serverextension enable --py \
-      jupyter_http_over_ws # jupyterlab_code_formatter
-    jupyter lab build
-
-    #${CONDA_HOME}/envs/default/bin/python -m ipykernel install --name 'python3' --display-name "Python 3"
-    #${CONDA_HOME}/envs/tensorflow1/bin/python -m ipykernel install --name 'python3-tf1' --display-name "Python 3 (TensorFlow 1.x)"
-    #jupyter kernelspec install ${CONDA_HOME}/envs/default/share/jupyter/kernels/xcpp17
-    deactivate
-
-    #pip install -U --no-cache-dir dask_labextension (jupyterlab-bokeh-server?)
-    #jupyter labextension install dask-labextension (jupyterlab-bokeh-server?)
-
-    rm -rf ${JUPYTER_HOME}/share/jupyter/kernels/*
-    
-    chmod 644 ${JUPYTER_HOME}/etc/jupyter/jupyter_notebook_config.py ${JUPYTER_HOME}/etc/jupyter/nginx_jupyter.conf
-    ln -s ${JUPYTER_HOME}/etc/jupyter/nginx_jupyter.conf /etc/nginx/sites-available/jupyter.conf
-    #ln -s /etc/nginx/sites-available/jupyter.conf /etc/nginx/sites-enabled/
-    
 
 
     ########################
@@ -248,6 +210,7 @@ ARCH_SELECTED=ALL
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.python
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.anaconda-extension-pack
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.Go
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension donjayamanne.githistory
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension James-Yu.latex-workshop
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension dbankier.vscode-instant-markdown
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension yzane.markdown-pdf
@@ -267,7 +230,6 @@ ARCH_SELECTED=ALL
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
-    export JUPYTER_HOME=/opt/jupyter
     export CODER_HOME=/opt/code-server
     source /etc/profile.d/*
     export JUPYTER_ALLOW_INSECURE_WRITES=true

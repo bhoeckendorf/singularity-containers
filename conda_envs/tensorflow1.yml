@@ -1,27 +1,11 @@
-name: tensorflow1
+name: default
 dependencies:
-  - airflow
   - albumentations
-  - biopython
   - bokeh
-  - boto3
   - bottleneck
   - cffi
-  - click
-  - click-aliases
-  - click-completion
-  - click-config-file
-  - click-help-colors
-  - click-log
-  - click-option-group
-  - click-params
-  - click-plugins
-  - click-spinner
-  - cling
   - cloudpickle
   - colorcet
-  - cppyy
-  - cppyy-cling
   - cudatoolkit =10.0.*
   - cupti
   - cupy >=7.6
@@ -43,7 +27,6 @@ dependencies:
   - datashader
   - discretize
   - distributed
-  - ffmpeg-python
   - google-cloud-storage
   - h5py
   - holoviews
@@ -53,33 +36,19 @@ dependencies:
   - imageio-ffmpeg
   - intake
   - intake-parquet
+  - intake-spark
   - intake-xarray
-  - ipykernel
   - ipython
-  - ipywidgets
   - itk >=5
-  - itkwidgets
+  - itk-meshtopolydata
   - javabridge
   - jsonpatch
-  - jupyter_bokeh
-  - lmdb
-  - mayavi
   - matplotlib >=3.2
   - matplotlib-scalebar
   - memory_profiler
-  - menpo
-  - menpo3d
-  - menpodetect
-  - menpofit
-  - metaflow
-  - mlflow
   - mrcfile
   - mypy
-  - napari
   - natsort
-  - neptune-client
-  - neptune-notebooks
-  - networkx
   - nibabel
   - numba
   - numcodecs
@@ -95,9 +64,7 @@ dependencies:
   - pillow
   - pims
   - plotly
-  # - py-openimageio
   - pyarrow
-  - pybind11
   - pycocotools
   - pydicom
   - pyfftw
@@ -110,16 +77,13 @@ dependencies:
   - pyside2
   - pysoundfile
   - pytables
-  - pytesseract
   - python =3.7.*
   - python-dateutil
   - python-language-server
   - pyvista
   - pyviz_comms
   - pywavelets
-  # - pyxtensor
   - pyyaml
-  - pyzbar
   # - rapids >=0.14
   # - rapids-xgboost
   - roifile
@@ -151,7 +115,7 @@ dependencies:
   - statsmodels
   - sympy
   - tabulate
-  - tensorflow-gpu >=1.15,<2
+  - tensorflow-gpu >=1.15.*,<2
   - tetgen
   - tifffile
   - toml
@@ -160,59 +124,35 @@ dependencies:
   - umap-learn
   - untangle
   - urllib3
+  - visdom
   - vispy
   - vtk
   - xarray >=0.15
   - xarray-extras
   - xarray-spatial
-  - xgboost
   - xlrd
   - xlsxwriter
   - xlwt
   - xmltodict
   - xrviz
-  - xtensor
-  - xtensor-blas
-  - xtensor-fftw
-  # - xtensor-io
-  - xtensor-python
   - yaml
   - z5py
   - zarr
-  - zbarlight
+# Jupyter
+  - itkwidgets
+  - ipykernel
+  - ipywidgets
+  # - jupyter_bokeh
+# pip
   - pip
   - pip:
-    # - jupyter_http_over_ws
-    # - dask_labextension
-    # - jupyter-tensorboard
-    - arrayfire
     - augment-nd
-    - baal
-    - dagit
-    - dagster
-    - dagster-airflow
-    - dagster-bash
-    - dagster-cron
-    - dagster-dask
-    - dagster-pandas
-    - dagster-postgres
-    - dagster-shell
-    - dagster-slack
-    - dagster-ssh
-    - dagstermill
     - flywheel-cli
     - flywheel-sdk
     - numbagg
-    - prefect[templates,viz]
     - pymeshfix
     - python-bioformats
-    - ray
-    # - scikit-cuda  # (outdated?)
     - tensorlayer[all] ==1.11.0
-    - trains
-    - trains-agent
     - git+https://github.com/cocodataset/panopticapi.git
     - git+https://github.com/waspinator/pycococreator.git
     - git+https://github.com/bhoeckendorf/pyklb.git@skbuild
-    # ad-hoc fix for metaflow lint
-    - isort <5
