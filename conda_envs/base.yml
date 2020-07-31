@@ -1,4 +1,4 @@
-name: default
+name: base
 dependencies:
   - albumentations
   # - argparse
@@ -235,7 +235,7 @@ dependencies:
   - yapf
 # Jupyter
   - itkwidgets
-  # - ipykernel
+  - ipykernel
   - ipywidgets
   # - jupyter_bokeh
   - jupyterlab

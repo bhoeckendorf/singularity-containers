@@ -16,7 +16,7 @@ from: bh_arch.sif
 %apprun jupyter
     source /etc/profile.d/*
     ${CONDA_HOME}/bin/jupyter lab \
-      --config=${JUPYTER_HOME}/etc/jupyter/jupyter_notebook_config.py \
+      --config=${CONDA_HOME}/etc/jupyter/jupyter_notebook_config.py \
       --notebook-dir=${MYDIR} \
       "$@"
 
@@ -187,7 +187,11 @@ ARCH_SELECTED=ALL
     # Enable conda channels, envs, pkgs. Initially disabled because paths aren't mounted during build.
     sed -i "s/  # -/  -/" /etc/conda/condarc
 
-    rm /root/base.yml /root/tensorflow1.yml
+    rm -r \
+      ${CONDA_HOME}/share/jupyter/kernels/xcpp11 \
+      ${CONDA_HOME}/share/jupyter/kernels/xcpp14 \
+      /root/base.yml \
+      /root/tensorflow1.yml
     chmod -R 777 /etc/conda/condarc ${CONDA_HOME}/pkgs
     chmod -R 644 /etc/dask/
 

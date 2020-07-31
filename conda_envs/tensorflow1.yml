@@ -1,4 +1,4 @@
-name: default
+name: tensorflow1
 dependencies:
   - albumentations
   - bokeh
