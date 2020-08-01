@@ -7,8 +7,8 @@ After=network.target
 Type=simple
 Restart=always
 RestartSec=5
-User=bhoecken
-ExecStart=/opt/singularity/bin/singularity run --nv -B /research --app jupyter /home/bhoecken/src/singularity-containers/bh_dev.sif
+User=simview
+ExecStart=/opt/singularity/bin/singularity run --nv -B /media --app jupyter /home/simview/burkhard/src/singularity-containers/bh_dev.sif
 
 [Install]
 WantedBy=multi-user.target

@@ -7,8 +7,8 @@ After=network.target
 Type=simple
 Restart=always
 RestartSec=5
-User=bhoecken
-ExecStart=/opt/singularity/bin/singularity run --nv -B /research --writable-tmpfs --app code /home/bhoecken/src/singularity-containers/bh_dev.sif
+User=simview
+ExecStart=/opt/singularity/bin/singularity run --nv -B /media --writable-tmpfs --app code /home/simview/burkhard/src/singularity-containers/bh_dev.sif
 
 [Install]
 WantedBy=multi-user.target

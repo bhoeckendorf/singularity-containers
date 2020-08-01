@@ -74,8 +74,7 @@ from: bh_arch.sif
     secrets/bh-selfsigned.crt         /etc/ssl/certs/
 
 %post
-    export CBIDIR=/research/sharedresources/cbi
-    export MYDIR=${CBIDIR}/common/burkhard
+    export MYDIR=/home/simview/burkhard
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
@@ -229,15 +228,13 @@ ARCH_SELECTED=ALL
     chmod -R 644 /etc/nginx/sites-*
 
 %environment
-    export CBIDIR=/research/sharedresources/cbi
-    export MYDIR=${CBIDIR}/common/burkhard
+    export MYDIR=/home/simview/burkhard
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
     export CODER_HOME=/opt/code-server
     source /etc/profile.d/*
     export JUPYTER_ALLOW_INSECURE_WRITES=true
-    export HPC_DIR=/hpcf/lsf/lsf_prod/10.1/linux3.10-glibc2.17-x86_64/bin
-    export PATH=${PATH}:${CODER_HOME}/bin:${HPC_DIR}
+    export PATH=${PATH}:${CODER_HOME}/bin
     export CC=clang
     export CXX=clang++
