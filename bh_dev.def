@@ -74,7 +74,7 @@ from: bh_arch.sif
     secrets/bh-selfsigned.crt         /etc/ssl/certs/
 
 %post
-    export MYDIR=/home/simview/burkhard
+    export MYDIR=/media/Y/Exchange/Burkhard
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
@@ -228,7 +228,7 @@ ARCH_SELECTED=ALL
     chmod -R 644 /etc/nginx/sites-*
 
 %environment
-    export MYDIR=/home/simview/burkhard
+    export MYDIR=/media/Y/Exchange/Burkhard
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
