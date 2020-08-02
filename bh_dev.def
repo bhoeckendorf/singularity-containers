@@ -64,6 +64,7 @@ from: bh_arch.sif
 
 %files
     software/l_ipp_2020.2.254.tgz     /root/
+    config/gitignore                  /etc/gitignore
     config/gitconfig                  /etc/gitconfig
     config/nginx.conf                 /etc/nginx/
     config/condarc                    /etc/conda/condarc
