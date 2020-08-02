@@ -50,17 +50,20 @@ from: bh_arch.sif
 %apprun pytorch_test_gpu
     source /etc/profile.d/*
     conda activate base
-    python -c "import torch\nprint(torch.cuda.is_available())"
+    python -c "import torch
+print(torch.cuda.is_available())"
 
 %apprun tensorflow_test_gpu
     source /etc/profile.d/*
     conda activate base
-    python -c "import tensorflow as tf\nprint(tf.config.list_physical_devices('GPU'))"
+    python -c "import tensorflow as tf
+print(tf.config.list_physical_devices('GPU'))"
 
 %apprun tensorflow1_test_gpu
     source /etc/profile.d/*
     conda activate tensorflow1
-    python -c "import tensorflow as tf\nprint(tf.test.is_gpu_available())"
+    python -c "import tensorflow as tf
+print(tf.test.is_gpu_available())"
 
 %files
     software/l_ipp_2020.2.254.tgz     /root/
