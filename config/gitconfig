@@ -1,5 +1,7 @@
+[core]
+    excludeFiles = /etc/gitignore
+[pull]
+    rebase = false
 [user]
 	name = Burkhard Hoeckendorf
 	email = burkhard.hoeckendorf@pm.me
-[core]
-    excludeFiles = /etc/gitignore
