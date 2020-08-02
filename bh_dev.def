@@ -3,25 +3,30 @@ from: bh_arch.sif
 
 %runscript
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/python "$@"
+    conda activate base
+    python "$@"
 
 %apprun python
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/python "$@"
+    conda activate base
+    python "$@"
 
 %apprun ipython
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/ipython "$@"
+    conda activate base
+    ipython "$@"
 
 %apprun jupyter
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/jupyter lab \
+    conda activate base
+    jupyter lab \
       --config=${CONDA_HOME}/etc/jupyter/jupyter_notebook_config.py \
       --notebook-dir=${MYDIR} \
       "$@"
 
 %apprun code
     source /etc/profile.d/*
+    conda activate base
     code-server \
       --config=${CODER_HOME}/etc/config.yaml \
       --disable-telemetry \
@@ -29,33 +34,40 @@ from: bh_arch.sif
 
 %apprun conda
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/conda "$@"
+    conda activate base
+    conda "$@"
 
 %apprun pip
     source /etc/profile.d/*
+    conda activate base
     ${CONDA_HOME}/bin/pip "$@"
 
 %apprun tensorboard
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/tensorboard --logdir="$@"
+    conda activate base
+    tensorboard --logdir="$@"
 
 %apprun pytorch_test_gpu
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/python -c \
-      "import torch\nprint(torch.cuda.is_available())"
+    conda activate base
+    python -c "import torch
+print(torch.cuda.is_available())"
 
 %apprun tensorflow_test_gpu
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/python -c \
-      "import tensorflow as tf\nprint(tf.config.list_physical_devices('GPU'))"
+    conda activate base
+    python -c "import tensorflow as tf
+print(tf.config.list_physical_devices('GPU'))"
 
 %apprun tensorflow1_test_gpu
     source /etc/profile.d/*
-    ${CONDA_HOME}/bin/python -c \
-      "import tensorflow as tf\nprint(tf.test.is_gpu_available())"
+    conda activate tensorflow1
+    python -c "import tensorflow as tf
+print(tf.test.is_gpu_available())"
 
 %files
     software/l_ipp_2020.2.254.tgz     /root/
+    config/gitignore                  /etc/gitignore
     config/gitconfig                  /etc/gitconfig
     config/nginx.conf                 /etc/nginx/
     config/condarc                    /etc/conda/condarc
@@ -92,7 +104,7 @@ from: bh_arch.sif
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber \
+      go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber lilypond \
       freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
     mkdir -p /var/cache/pacman/pkg
