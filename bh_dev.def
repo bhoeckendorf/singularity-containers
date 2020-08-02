@@ -101,7 +101,7 @@ from: bh_arch.sif
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber \
+      go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber lilypond \
       freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
     mkdir -p /var/cache/pacman/pkg
