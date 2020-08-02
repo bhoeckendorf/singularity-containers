@@ -95,7 +95,7 @@ dependencies:
   - pims
   - plotly
   - py4j
-# - py-openimageio
+  # - py-openimageio
   - pyarrow
   - pybind11
   - pycocotools
@@ -109,9 +109,8 @@ dependencies:
   - pyqtgraph
   - pyside2
   - pysoundfile
-  - pyspark
-  - pyspark-flame
-  - pyspark-stubs
+  - pyspark >=3
+  # - pyspark-stubs
   - pytables
   - pytesseract
   - python =3.7.*
@@ -152,7 +151,6 @@ dependencies:
   - skorch
   - slicerator
   - sox
-  - sparkhpc
   - sqlalchemy
   - sqlalchemy-utils
   - sqlite
@@ -204,6 +202,7 @@ dependencies:
   - conda-verify
   - flake8
   - isort =4
+  - jedi
   - mccabe
   - papermill
   - pycodestyle
@@ -243,6 +242,7 @@ dependencies:
   - nb_conda_kernels
 # Frameworks
   - airflow
+  - dagster
   - metaflow
   - mlflow
   - neptune-client
@@ -277,19 +277,6 @@ dependencies:
     # - jupyter-tensorboard
     # nvdashboard, dash, code-fromatter, tensorboard
 # Frameworks
-    - dagit
-    - dagster
-    - dagster-airflow
-    - dagster-bash
-    - dagster-cron
-    - dagster-dask
-    - dagster-pandas
-    - dagster-postgres
-    - dagster-pyspark
-    - dagster-shell
-    - dagster-slack
-    - dagster-ssh
-    - dagstermill
     - prefect[templates,viz]
     - trains
     - trains-agent
