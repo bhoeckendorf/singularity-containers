@@ -36,7 +36,6 @@ dependencies:
   - imageio-ffmpeg
   - intake
   - intake-parquet
-  - intake-spark
   - intake-xarray
   - ipython
   - itk >=5

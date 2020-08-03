@@ -105,7 +105,7 @@ print(tf.test.is_gpu_available())"
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber lilypond \
+      go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber vim \
       freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
     mkdir -p /var/cache/pacman/pkg
@@ -180,8 +180,12 @@ ARCH_SELECTED=ALL
     # conda index ${MYDIR}/var/conda/channel
 
     conda update --all
+
+    conda activate base
     conda env update -f /root/base.yml
-    ${CONDA_HOME}/bin/pip install --no-cache-dir --no-deps cellpose
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir --no-deps cellpose
+    #${CONDA_HOME}/bin/python -m pip install "git+https://github.com/facebookresearch/detectron2.git"
+    ${CONDA_HOME}/bin/python -m pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.6/index.html
 
     ${CONDA_HOME}/bin/jupyter labextension install \
       @jupyter-widgets/jupyterlab-manager @jupyterlab/celltags jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets  # @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
@@ -189,6 +193,7 @@ ARCH_SELECTED=ALL
     ${CONDA_HOME}/bin/jupyter serverextension enable --py \
       jupyter_http_over_ws # jupyterlab_code_formatter
     ${CONDA_HOME}/bin/jupyter lab build
+    conda deactivate
 
     chmod 644 ${CONDA_HOME}/etc/jupyter/jupyter_notebook_config.py ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf
     ln -s ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf /etc/nginx/sites-available/jupyter.conf
@@ -235,7 +240,6 @@ ARCH_SELECTED=ALL
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
 
     chmod -R 777 ${CODER_HOME}
-    chmod 644 ${CODER_HOME}/etc/*.conf
     ln -s ${CODER_HOME}/etc/nginx_code-server.conf /etc/nginx/sites-available/code-server.conf
     ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/
     chmod -R 644 /etc/nginx/sites-*
