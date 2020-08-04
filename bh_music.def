@@ -1,0 +1,100 @@
+bootstrap: localimage
+from: bh_arch.sif
+
+%runscript
+    /bin/sh "$@"
+
+%apprun code
+    code-server \
+      --config=${CODER_HOME}/etc/config.yaml \
+      --disable-telemetry \
+      "$@"
+
+%files
+    config/gitignore              /etc/gitignore
+    config/gitconfig              /etc/gitconfig
+    config/code-server_config.yml /opt/code-server/etc/config.yaml
+    secrets/dhparam.pem           /etc/ssl/
+    secrets/bh-selfsigned.key     /etc/ssl/private/
+    secrets/bh-selfsigned.crt     /etc/ssl/certs/
+
+%post
+    export CODER_HOME=/opt/code-server
+    export CC=clang
+    export CXX=clang++
+
+
+
+    ########################
+    #  OS package manager  #
+    ########################
+
+    pacman -Syu --noconfirm
+    pacman -S --needed --noconfirm \
+      base-devel clang clojure leiningen rlwrap lv2 git git-lfs cmake tmux screen vim \
+      jack2 jack_utils jack-stdio jack_capture jack_delay jackmeter jacktrip rtaudio libsndfile \
+      libmusicxml lilypond \
+      supercollider sc3-plugins chuck csound vim-csound faust \
+      timidity++ vorbis-tools
+      # guido csound-webide inscore
+
+    mkdir -p /var/cache/pacman/pkg
+    yes | pacman -Scc
+    rm -rf /var/cache/pacman/pkg
+
+
+
+    ########################
+    #  Overtone            #
+    ########################
+
+    mkdir -p /opt/overtone
+    cd /opt/overtone
+    lein new blank
+    printf "\
+[org.clojure/clojure "1.9.0"]
+[overtone "0.10.6"]
+" > blank/project.clj
+    chmod -R 777 /opt/overtone
+    cd
+
+
+
+    ########################
+    #  vim                 #
+    ########################
+
+    mkdir -p /usr/share/vim/vimfiles
+    cd /usr/share/vim/vimfiles
+    git clone https://github.com/supercollider/scvim.git
+
+
+
+    ########################
+    #  coder               #
+    ########################
+
+    curl -fsSL https://code-server.dev/install.sh | sh -s -- --method=standalone --prefix=${CODER_HOME}
+    rm -rf /root/.config/code-server
+    export PATH=${PATH}:${CODER_HOME}/bin
+
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cpptools
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension llvm-vs-code-extensions.vscode-clangd
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension betterthantomorrow.calva
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension glen-anderson.vscode-faust
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension xaver.clang-format
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cmake-tools
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension donjayamanne.githistory
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension dbankier.vscode-instant-markdown
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension yzane.markdown-pdf
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-xml
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-yaml
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
+
+    chmod -R 777 ${CODER_HOME}
+    chmod -R 644 ${CODER_HOME}/etc
+
+%environment
+    export CODER_HOME=/opt/code-server
+    export CC=clang
+    export CXX=clang++

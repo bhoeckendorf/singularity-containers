@@ -43,7 +43,7 @@ dependencies:
   - dask-searchcv
   - dask-xgboost
   - datashader
-  - detectron2
+  # - detectron2
   - discretize
   - distributed
   - ffmpeg-python
@@ -58,7 +58,6 @@ dependencies:
   - imageio-ffmpeg
   - intake
   - intake-parquet
-  - intake-spark
   - intake-xarray
   - ipython
   - itk >=5
@@ -117,7 +116,7 @@ dependencies:
   - python-confluent-kafka
   - python-dateutil
   - python-language-server
-  - pytorch >=1.5.1
+  - pytorch =1.6.*
   - pytorch-lightning
   - pyvista
   - pyviz_comms
@@ -158,7 +157,7 @@ dependencies:
   - sympy
   - tabulate
   - tensorboardx
-  - tensorflow-gpu >=2.2.0
+  - tensorflow-gpu =2.2.*
   - tetgen
   - tifffile
   - toml
@@ -242,6 +241,7 @@ dependencies:
   - nb_conda_kernels
 # Frameworks
   - airflow
+  - dagit
   - dagster
   - metaflow
   - mlflow
