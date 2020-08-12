@@ -26,7 +26,7 @@ from: bh_arch.sif
 
 %apprun code
     source /etc/profile.d/*
-    conda activate base
+    # conda activate base
     code-server \
       --config=${CODER_HOME}/etc/config.yaml \
       --disable-telemetry \
@@ -255,5 +255,5 @@ ARCH_SELECTED=ALL
     export JUPYTER_ALLOW_INSECURE_WRITES=true
     export HPC_DIR=/hpcf/lsf/lsf_prod/10.1/linux3.10-glibc2.17-x86_64/bin
     export PATH=${PATH}:${CODER_HOME}/bin:${HPC_DIR}
-    export CC=clang
-    export CXX=clang++
+    export CC=/usr/bin/clang
+    export CXX=/usr/bin/clang++
