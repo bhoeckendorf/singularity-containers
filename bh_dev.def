@@ -101,7 +101,7 @@ print(tf.test.is_gpu_available())"
 
     pacman -Syu --noconfirm
     pacman -S --needed --noconfirm \
-      base-devel gdb clang lldb openmp intel-tbb intel-mkl ccache cmake git git-lfs tk cpio \
+      base-devel gdb clang lld lldb openmp intel-tbb intel-mkl ccache cmake git git-lfs tk cpio \
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
