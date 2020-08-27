@@ -100,11 +100,11 @@ print(tf.test.is_gpu_available())"
 
     pacman -Syu --noconfirm
     pacman -S --needed --noconfirm \
-      base-devel gdb clang lldb openmp intel-tbb intel-mkl ccache cmake git git-lfs tk cpio \
+      base-devel gdb clang lld lldb openmp intel-tbb intel-mkl ccache cmake git git-lfs tk cpio \
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
-      jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc maven gradle \
+      jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc kotlin maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber vim \
+      rust rust-analyzer go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber vim \
       freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
     mkdir -p /var/cache/pacman/pkg
@@ -227,8 +227,10 @@ ARCH_SELECTED=ALL
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cmake-tools
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.java
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension vscjava.vscode-java-pack
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension mathiasfrohlich.kotlin
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.python
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.anaconda-extension-pack
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension rust-lang.rust
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.Go
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension donjayamanne.githistory
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension James-Yu.latex-workshop

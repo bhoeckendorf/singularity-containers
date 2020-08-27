@@ -126,6 +126,7 @@ dependencies:
   - pyzbar
   # - rapids >=0.14
   # - rapids-xgboost
+  - recommonmark
   - roifile
   - scikit-bio
   - scikit-build
@@ -263,6 +264,7 @@ dependencies:
     - python-bioformats
     - ray
     # - scikit-cuda  # (outdated?)
+    - sphinx-rtd-theme
     - tensorlayer[all]
     - git+https://github.com/cocodataset/panopticapi.git
     - git+https://github.com/waspinator/pycococreator.git
