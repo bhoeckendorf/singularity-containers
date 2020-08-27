@@ -253,6 +253,6 @@ ARCH_SELECTED=ALL
     export CODER_HOME=/opt/code-server
     source /etc/profile.d/*
     export JUPYTER_ALLOW_INSECURE_WRITES=true
-    export PATH=${PATH}:${CODER_HOME}/bin
+    export PATH=${PATH}:/opt/cuda/bin:${CODER_HOME}/bin
     export CC=/usr/bin/clang
     export CXX=/usr/bin/clang++
