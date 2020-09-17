@@ -1,0 +1,42 @@
+bootstrap: localimage
+from: bh_arch.sif
+
+%runscript
+    source /etc/profile.d/*
+    conda activate
+    tiktorch-server "$@"
+
+%apprun pytorch_test_gpu
+    source /etc/profile.d/*
+    conda activate
+    python -c "import torch
+print(torch.cuda.is_available())"
+
+%post
+    export CONDA_HOME=/opt/conda
+
+
+    # OS package manager
+    pacman -Syu --noconfirm
+
+    mkdir -p /var/cache/pacman/pkg
+    yes | pacman -Scc
+    rm -rf /var/cache/pacman/pkg
+
+
+    # conda
+    curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -u -p ${CONDA_HOME}
+    rm Miniconda3-latest-Linux-x86_64.sh
+    ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+
+    source /etc/profile.d/conda.sh
+
+    conda update --all
+    conda install -c ilastik-forge -c conda-forge -c pytorch tiktorch
+
+    chmod -R 777 ${CONDA_HOME}/pkgs
+
+%environment
+    export CONDA_HOME=/opt/conda
+    source /etc/profile.d/*
