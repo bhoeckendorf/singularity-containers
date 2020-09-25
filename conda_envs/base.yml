@@ -2,11 +2,13 @@ name: base
 dependencies:
   - albumentations
   # - argparse
+  - beakerx
   - biopython
   - bokeh
   - botorch
   - boto3
   - bottleneck
+  - bqplot
   - captum
   - cffi
   - click
@@ -43,9 +45,10 @@ dependencies:
   - dask-searchcv
   - dask-xgboost
   - datashader
-  # - detectron2
+  - detectron2
   - discretize
   - distributed
+  - etcd
   - ffmpeg-python
   - findspark
   - google-cloud-storage
@@ -64,6 +67,7 @@ dependencies:
   - itk-meshtopolydata
   - javabridge
   - jsonpatch
+  - k3d
   - lmdb
   - mayavi
   - matplotlib >=3.2
@@ -162,8 +166,8 @@ dependencies:
   - tetgen
   - tifffile
   - toml
-  - torchaudio
   - torch-model-archiver
+  - torchaudio
   # - torchserve
   - torchtext
   - torchvision
@@ -231,6 +235,7 @@ dependencies:
   - sphinx-jinja
   - sphinx-markdown-tables
   - sphinx-math-dollar
+  - voila
   - yapf
 # Jupyter
   - itkwidgets
@@ -266,6 +271,7 @@ dependencies:
     # - scikit-cuda  # (outdated?)
     - sphinx-rtd-theme
     - tensorlayer[all]
+    # - torchelastic
     - git+https://github.com/cocodataset/panopticapi.git
     - git+https://github.com/waspinator/pycococreator.git
     - git+https://github.com/bhoeckendorf/pyklb.git@skbuild
@@ -278,6 +284,7 @@ dependencies:
     - jupyter_http_over_ws
     # - jupyter-tensorboard
     # nvdashboard, dash, code-fromatter, tensorboard
+    - nbdev
 # Frameworks
     - prefect[templates,viz]
     - trains

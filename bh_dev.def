@@ -3,22 +3,22 @@ from: bh_arch.sif
 
 %runscript
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     python "$@"
 
 %apprun python
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     python "$@"
 
 %apprun ipython
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     ipython "$@"
 
 %apprun jupyter
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     jupyter lab \
       --config=${CONDA_HOME}/etc/jupyter/jupyter_notebook_config.py \
       --notebook-dir=${MYDIR} \
@@ -26,7 +26,7 @@ from: bh_arch.sif
 
 %apprun code
     source /etc/profile.d/*
-    # conda activate base
+    # conda activate
     code-server \
       --config=${CODER_HOME}/etc/config.yaml \
       --disable-telemetry \
@@ -34,28 +34,28 @@ from: bh_arch.sif
 
 %apprun conda
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     conda "$@"
 
 %apprun pip
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     ${CONDA_HOME}/bin/pip "$@"
 
 %apprun tensorboard
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     tensorboard --logdir="$@"
 
 %apprun pytorch_test_gpu
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     python -c "import torch
 print(torch.cuda.is_available())"
 
 %apprun tensorflow_test_gpu
     source /etc/profile.d/*
-    conda activate base
+    conda activate
     python -c "import tensorflow as tf
 print(tf.config.list_physical_devices('GPU'))"
 
@@ -184,14 +184,12 @@ ARCH_SELECTED=ALL
     conda activate base
     conda env update -f /root/base.yml
     ${CONDA_HOME}/bin/python -m pip install --no-cache-dir --no-deps cellpose
-    #${CONDA_HOME}/bin/python -m pip install "git+https://github.com/facebookresearch/detectron2.git"
-    ${CONDA_HOME}/bin/python -m pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.6/index.html
 
     ${CONDA_HOME}/bin/jupyter labextension install \
-      @jupyter-widgets/jupyterlab-manager @jupyterlab/celltags jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets  # @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
+      @jupyter-widgets/jupyterlab-manager jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets bqplot @jupyter-voila/jupyterlab-preview  # k3d # @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
       # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
     ${CONDA_HOME}/bin/jupyter serverextension enable --py \
-      jupyter_http_over_ws # jupyterlab_code_formatter
+      jupyter_http_over_ws # voila # jupyterlab_code_formatter
     ${CONDA_HOME}/bin/jupyter lab build
     conda deactivate
 
