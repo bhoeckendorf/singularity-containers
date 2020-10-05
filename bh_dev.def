@@ -183,10 +183,11 @@ ARCH_SELECTED=ALL
 
     conda activate base
     conda env update -f /root/base.yml
+    ${CONDA_HOME}/bin/python -m pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.6/index.html
     ${CONDA_HOME}/bin/python -m pip install --no-cache-dir --no-deps cellpose
 
     ${CONDA_HOME}/bin/jupyter labextension install \
-      @jupyter-widgets/jupyterlab-manager jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets bqplot @jupyter-voila/jupyterlab-preview  # k3d # @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
+      @jupyter-widgets/jupyterlab-manager jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets bqplot @jupyter-voila/jupyterlab-preview # k3d @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
       # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
     ${CONDA_HOME}/bin/jupyter serverextension enable --py \
       jupyter_http_over_ws # voila # jupyterlab_code_formatter

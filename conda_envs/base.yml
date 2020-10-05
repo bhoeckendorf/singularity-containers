@@ -45,7 +45,7 @@ dependencies:
   - dask-searchcv
   - dask-xgboost
   - datashader
-  - detectron2
+  # - detectron2
   - discretize
   - distributed
   - etcd
@@ -68,6 +68,7 @@ dependencies:
   - javabridge
   - jsonpatch
   - k3d
+  - kaggle
   - lmdb
   - mayavi
   - matplotlib >=3.2
