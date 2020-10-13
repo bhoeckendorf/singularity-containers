@@ -59,6 +59,7 @@ dependencies:
   - imagecodecs
   - imageio
   - imageio-ffmpeg
+  - inferno
   - intake
   - intake-parquet
   - intake-xarray
@@ -261,9 +262,11 @@ dependencies:
     - arrayfire
     - augment-nd
     - baal
+    - elasticdeform
     - faust
-    - flywheel-cli
-    - flywheel-sdk
+    # for FlyWheel sever v14.0.2
+    - flywheel-cli =12.4.6
+    - flywheel-sdk =12.4.6
     - mxnet_cu101mkl
     - numbagg
     - pymeshfix
