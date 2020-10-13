@@ -46,11 +46,13 @@ dependencies:
   - dask-xgboost
   - datashader
   # - detectron2
+  - dill
   - discretize
   - distributed
   - etcd
   - ffmpeg-python
   - findspark
+  - firelight
   - google-cloud-storage
   - h5py
   - holoviews
