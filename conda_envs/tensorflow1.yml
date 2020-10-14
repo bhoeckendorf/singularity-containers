@@ -148,8 +148,8 @@ dependencies:
     - augment-nd
     - elasticdeform
     # for FlyWheel sever v14.0.2
-    - flywheel-cli =12.4.6
-    - flywheel-sdk =12.4.6
+    - flywheel-cli ==12.4.*
+    - flywheel-sdk ==12.4.*
     - numbagg
     - pymeshfix
     - python-bioformats
