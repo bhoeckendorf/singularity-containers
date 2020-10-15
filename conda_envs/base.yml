@@ -266,9 +266,11 @@ dependencies:
     - baal
     - elasticdeform
     - faust
-    # for FlyWheel sever v14.0.2
-    - flywheel-cli ==12.4.*
-    - flywheel-sdk ==12.4.*
+    - flywheel-cli
+    - flywheel-gear-toolkit
+    - flywheel-gears
+    - flywheel-metadata-toolkit
+    - flywheel-sdk
     - mxnet_cu101mkl
     - numbagg
     - pymeshfix
