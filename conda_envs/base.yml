@@ -1,7 +1,6 @@
 name: base
 dependencies:
   - albumentations
-  # - argparse
   - beakerx
   - biopython
   - bokeh
@@ -43,7 +42,7 @@ dependencies:
   - dask-memusage
   - dask-ml
   - dask-searchcv
-  - dask-xgboost
+  # - dask-xgboost # deprecated
   - datashader
   # - detectron2
   - dill
@@ -66,7 +65,7 @@ dependencies:
   - intake-parquet
   - intake-xarray
   - ipython
-  - itk >=5
+  - itk
   - itk-meshtopolydata
   - javabridge
   - jsonpatch
@@ -90,8 +89,8 @@ dependencies:
   - numba
   - numcodecs
   - numexpr
-  - numpy >=1.18
-  - opencv >=4.2
+  - numpy >=1.19
+  - opencv
   - openpyxl
   - pandas >=1.0.4
   - pandas-datareader
@@ -116,7 +115,7 @@ dependencies:
   - pyqtgraph
   - pyside2
   - pysoundfile
-  - pyspark >=3
+  - pyspark
   # - pyspark-stubs
   - pytables
   - pytesseract
@@ -129,10 +128,10 @@ dependencies:
   - pyvista
   - pyviz_comms
   - pywavelets
-  # - pyxtensor
+  - pyxtensor
   - pyyaml
   - pyzbar
-  # - rapids >=0.14
+  # - rapids >=0.16
   # - rapids-xgboost
   - recommonmark
   - roifile
@@ -142,8 +141,8 @@ dependencies:
   - scikit-fmm
   - scikit-fuzzy
   - scikit-garden
-  - scikit-image >=0.16
-  - scikit-learn >=0.23
+  - scikit-image
+  - scikit-learn
   - scikit-learn-extra
   - scikit-mdr
   - scikit-multiflow
@@ -155,7 +154,7 @@ dependencies:
   - scipy >=1.5
   - seaborn
   - sentencepiece
-  - simpleitk >=1.2.4
+  - simpleitk
   - skorch
   - slicerator
   - sox
@@ -183,7 +182,7 @@ dependencies:
   - visdom
   - vispy
   - vtk
-  - xarray >=0.15
+  - xarray
   - xarray-extras
   - xarray-spatial
   - xeus-cling
@@ -196,7 +195,7 @@ dependencies:
   - xtensor
   - xtensor-blas
   - xtensor-fftw
-  # - xtensor-io
+  - xtensor-io
   - xtensor-python
   - yaml
   - z5py
