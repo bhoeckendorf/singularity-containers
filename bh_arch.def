@@ -22,7 +22,7 @@ from: archlinux/base
 
     pacman -Syyu --noconfirm
     pacman -S --needed --noconfirm \
-      bash-completion grep htop iputils lsof man-db man-pages nano psmisc unzip wget
+      bash-completion exa grep htop iputils lsof man-db man-pages mc nano psmisc unzip wget
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
