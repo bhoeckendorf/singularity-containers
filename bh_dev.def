@@ -88,10 +88,12 @@ print(tf.test.is_gpu_available())"
 %post
     export CBIDIR=/research/sharedresources/cbi
     export MYDIR=${CBIDIR}/common/burkhard
+    export CARGO_HOME=${MYDIR}/var/cargo
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
     export CODER_HOME=/opt/code-server
+    export PATH=${PATH}:/opt/cuda/bin:${CARGO_HOME}/bin:${CODER_HOME}/bin
 
 
 
@@ -105,7 +107,7 @@ print(tf.test.is_gpu_available())"
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc kotlin maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      rust rust-analyzer go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber vim \
+      rust rust-analyzer rustup go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber vim \
       freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
     mkdir -p /var/cache/pacman/pkg
@@ -192,6 +194,11 @@ ARCH_SELECTED=ALL
     ${CONDA_HOME}/bin/jupyter serverextension enable --py \
       jupyter_http_over_ws # voila # jupyterlab_code_formatter
     ${CONDA_HOME}/bin/jupyter lab build
+
+    cargo install evcxr_jupyter
+    evcxr_jupyter --install
+    mv /root/.local/share/jupyter/kernels/rust ${CONDA_HOME}/share/jupyter/kernels/
+
     conda deactivate
 
     chmod 644 ${CONDA_HOME}/etc/jupyter/jupyter_notebook_config.py ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf
@@ -248,6 +255,7 @@ ARCH_SELECTED=ALL
 %environment
     export CBIDIR=/research/sharedresources/cbi
     export MYDIR=${CBIDIR}/common/burkhard
+    export CARGO_HOME=${MYDIR}/var/cargo
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
@@ -255,6 +263,6 @@ ARCH_SELECTED=ALL
     source /etc/profile.d/*
     export JUPYTER_ALLOW_INSECURE_WRITES=true
     export HPC_DIR=/hpcf/lsf/lsf_prod/10.1/linux3.10-glibc2.17-x86_64/bin
-    export PATH=${PATH}:/opt/cuda/bin:${CODER_HOME}/bin:${HPC_DIR}
+    export PATH=${PATH}:/opt/cuda/bin:${CARGO_HOME}/bin:${CODER_HOME}/bin:${HPC_DIR}
     export CC=/usr/bin/clang
     export CXX=/usr/bin/clang++
