@@ -20,7 +20,7 @@ from: bh_arch.sif
     source /etc/profile.d/*
     conda activate
     jupyter lab \
-      --config=${CONDA_HOME}/etc/jupyter/jupyter_notebook_config.py \
+      --config=${CONDA_HOME}/etc/jupyter/jupyter_config.py \
       --notebook-dir=${MYDIR} \
       "$@"
 
@@ -73,7 +73,7 @@ print(tf.test.is_gpu_available())"
     config/condarc                    /etc/conda/condarc
     conda_envs/base.yml               /root/
     conda_envs/tensorflow1.yml        /root/
-    config/jupyter_notebook_config.py /opt/conda/etc/jupyter/
+    config/jupyter_config.py          /opt/conda/etc/jupyter/
     config/nginx_jupyter.conf         /opt/conda/etc/jupyter/
     config/preload_jupyter.py         /etc/dask/
     config/distributed.yml            /etc/dask/
@@ -107,7 +107,7 @@ print(tf.test.is_gpu_available())"
       blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
       jdk11-openjdk jre11-openjdk-headless openjdk11-src openjdk11-doc kotlin maven gradle \
       cuda cudnn nccl nvtop opencl-nvidia magma arrayfire \
-      rust rust-analyzer rustup go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber vim \
+      rust rust-analyzer go julia npm yarn doxygen opencv vtk nginx-mainline gnuplot texlive-most biber vim \
       freetds cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-sql gsasl lsb-release unixodbc
 
     mkdir -p /var/cache/pacman/pkg
@@ -201,7 +201,7 @@ ARCH_SELECTED=ALL
 
     conda deactivate
 
-    chmod 644 ${CONDA_HOME}/etc/jupyter/jupyter_notebook_config.py ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf
+    chmod 644 ${CONDA_HOME}/etc/jupyter/jupyter_config.py ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf
     ln -s ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf /etc/nginx/sites-available/jupyter.conf
     #ln -s /etc/nginx/sites-available/jupyter.conf /etc/nginx/sites-enabled/
 

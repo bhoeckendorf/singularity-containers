@@ -3,4 +3,4 @@ auth: password
 password: firsttimeonly
 cert: /etc/ssl/certs/bh-selfsigned.crt
 cert-key: /etc/ssl/private/bh-selfsigned.key
-extensions-dir: /opt/code-server/extensions/
+extensions-dir: /research/sharedresources/cbi/common/burkhard/var/code-server/extensions
