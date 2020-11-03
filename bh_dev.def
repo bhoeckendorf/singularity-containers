@@ -89,11 +89,13 @@ print(tf.test.is_gpu_available())"
     export CBIDIR=/research/sharedresources/cbi
     export MYDIR=${CBIDIR}/common/burkhard
     export CARGO_HOME=${MYDIR}/var/cargo
+    export GOPATH=${MYDIR}/var/go
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
+    export JULIA_DEPOT_PATH=${MYDIR}/var/julia
     export CODER_HOME=/opt/code-server
-    export PATH=${PATH}:/opt/cuda/bin:${CARGO_HOME}/bin:${CODER_HOME}/bin
+    export PATH=${PATH}:/opt/cuda/bin:${CARGO_HOME}/bin:${GOPATH}/bin:${CODER_HOME}/bin
 
 
 
@@ -194,11 +196,6 @@ ARCH_SELECTED=ALL
     ${CONDA_HOME}/bin/jupyter serverextension enable --py \
       jupyter_http_over_ws # voila # jupyterlab_code_formatter
     ${CONDA_HOME}/bin/jupyter lab build
-
-    cargo install evcxr_jupyter
-    evcxr_jupyter --install
-    mv /root/.local/share/jupyter/kernels/rust ${CONDA_HOME}/share/jupyter/kernels/
-
     conda deactivate
 
     chmod 644 ${CONDA_HOME}/etc/jupyter/jupyter_config.py ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf
@@ -218,6 +215,42 @@ ARCH_SELECTED=ALL
     chmod -R 777 /etc/conda/condarc ${CONDA_HOME}/pkgs
     chmod -R 644 /etc/dask/
 
+
+
+    ########################
+    #  Rust, Go, Julia     #
+    ########################
+
+    # Rust Jupyter kernel
+    cargo install evcxr_jupyter
+    evcxr_jupyter --install
+    mv /root/.local/share/jupyter/kernels/rust ${CONDA_HOME}/share/jupyter/kernels/
+
+    # Go general tooling, required for vscode integration
+    go get -u \
+      github.com/nsf/gocode \
+      github.com/uudashr/gopkgs/cmd/gopkgs \
+      github.com/ramya-rao-a/go-outline \
+      github.com/rogpeppe/godef \
+      github.com/sqs/goreturns \
+      golang.org/x/lint/golint
+
+#      gocode-gomod \
+
+    # Go Jupyter kernel
+    env GO111MODULE=off go get -d -u github.com/gopherdata/gophernotes
+    cd "$(go env GOPATH)"/src/github.com/gopherdata/gophernotes
+    env GO111MODULE=on go install
+    mkdir -p ${CONDA_HOME}/share/jupyter/kernels/gophernotes
+    cp kernel/* ${CONDA_HOME}/share/jupyter/kernels/gophernotes
+    cd ${CONDA_HOME}/share/jupyter/kernels/gophernotes
+    chmod +w ./kernel.json
+    sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < kernel.json.in > kernel.json
+    cd
+
+    # Julia Jupyter kernel
+    julia -e "using Pkg; Pkg.add(\"IJulia\");"
+    mv /root/.local/share/jupyter/kernels/julia* ${CONDA_HOME}/share/jupyter/kernels/
 
 
     ########################
@@ -256,13 +289,15 @@ ARCH_SELECTED=ALL
     export CBIDIR=/research/sharedresources/cbi
     export MYDIR=${CBIDIR}/common/burkhard
     export CARGO_HOME=${MYDIR}/var/cargo
+    export GOPATH=${MYDIR}/var/go
     export JAVA_HOME=/usr/lib/jvm/default
     export JRE_HOME=${JAVA_HOME}
     export CONDA_HOME=/opt/conda
+    export JULIA_DEPOT_PATH=${MYDIR}/var/julia
     export CODER_HOME=/opt/code-server
     source /etc/profile.d/*
     export JUPYTER_ALLOW_INSECURE_WRITES=true
     export HPC_DIR=/hpcf/lsf/lsf_prod/10.1/linux3.10-glibc2.17-x86_64/bin
-    export PATH=${PATH}:/opt/cuda/bin:${CARGO_HOME}/bin:${CODER_HOME}/bin:${HPC_DIR}
+    export PATH=${PATH}:/opt/cuda/bin:${CARGO_HOME}/bin:${GOPATH}/bin:${CODER_HOME}/bin:${HPC_DIR}
     export CC=/usr/bin/clang
     export CXX=/usr/bin/clang++

@@ -165,7 +165,7 @@ dependencies:
   - sympy
   - tabulate
   - tensorboardx
-  - tensorflow-gpu =2.3.*
+  - tensorflow-gpu =2.2.*
   - tetgen
   - tifffile
   - toml
