@@ -123,7 +123,7 @@ dependencies:
   - python-confluent-kafka
   - python-dateutil
   - python-language-server
-  - pytorch =1.6.*
+  - pytorch =1.7.*
   - pytorch-lightning
   - pyvista
   - pyviz_comms

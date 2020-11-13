@@ -187,7 +187,7 @@ ARCH_SELECTED=ALL
 
     conda activate base
     conda env update -f /root/base.yml
-    ${CONDA_HOME}/bin/python -m pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.6/index.html
+    ${CONDA_HOME}/bin/python -m pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.7/index.html
     ${CONDA_HOME}/bin/python -m pip install --no-cache-dir --no-deps cellpose
 
     ${CONDA_HOME}/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
