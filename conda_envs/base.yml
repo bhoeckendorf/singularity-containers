@@ -131,6 +131,7 @@ dependencies:
   - pyxtensor
   - pyyaml
   - pyzbar
+  - qgrid
   # - rapids >=0.16
   # - rapids-xgboost
   - recommonmark
@@ -158,6 +159,7 @@ dependencies:
   - skorch
   - slicerator
   - sox
+  - spatialpandas
   - sqlalchemy
   - sqlalchemy-utils
   - sqlite
@@ -272,6 +274,8 @@ dependencies:
     - flywheel-sdk
     - mxnet_cu101mkl
     - numbagg
+    - pandas_ui
+    - pandasgui
     - pymeshfix
     - python-bioformats
     - ray
