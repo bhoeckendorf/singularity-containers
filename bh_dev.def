@@ -280,6 +280,7 @@ ARCH_SELECTED=ALL
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-xml
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-yaml
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
+    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension streetsidesoftware.code-spell-checker
 
     chmod -R 777 ${CODER_HOME}
     ln -s ${CODER_HOME}/etc/nginx_code-server.conf /etc/nginx/sites-available/code-server.conf
