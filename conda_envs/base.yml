@@ -193,6 +193,8 @@ dependencies:
   - xlsxwriter
   - xlwt
   - xmltodict
+  - xpublish
+  - xrft
   - xrviz
   - xtensor
   - xtensor-blas
@@ -277,11 +279,13 @@ dependencies:
     - pandas_ui
     - pandasgui
     - pymeshfix
+    - pyn5
     - python-bioformats
     - ray
     # - scikit-cuda  # (outdated?)
     - sphinx-rtd-theme
     - tensorlayer[all]
+    - tensorstore
     # - torchelastic
     - git+https://github.com/cocodataset/panopticapi.git
     - git+https://github.com/waspinator/pycococreator.git
