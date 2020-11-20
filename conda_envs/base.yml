@@ -277,8 +277,7 @@ dependencies:
     - flywheel-sdk
     - mxnet_cu101mkl
     - numbagg
-    - pandas_ui
-    - pandasgui
+    # - pandasgui
     - pymeshfix
     - pyn5
     - python-bioformats
