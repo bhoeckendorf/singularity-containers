@@ -54,6 +54,7 @@ dependencies:
   - firelight
   - google-cloud-storage
   - h5py
+  - hiplot
   - holoviews
   - hvplot
   - ignite
