@@ -72,6 +72,7 @@ dependencies:
   - jsonpatch
   - k3d
   - kaggle
+  - librosa
   - lmdb
   - mayavi
   - matplotlib >=3.2
@@ -253,6 +254,7 @@ dependencies:
   - jupyterlab
   - jupyterlab-git
   - nb_conda_kernels
+  - nbdev
 # Frameworks
   - airflow
   - dagit
@@ -275,7 +277,10 @@ dependencies:
     - flywheel-gears
     - flywheel-metadata-toolkit
     - flywheel-sdk
+    - gunpowder
     - mxnet_cu101mkl
+    - neuroglancer
+    - neuroglancer-annotation-ui
     - numbagg
     # - pandasgui
     - pymeshfix
@@ -299,7 +304,6 @@ dependencies:
     - jupyter_http_over_ws
     # - jupyter-tensorboard
     # nvdashboard, dash, code-fromatter, tensorboard
-    - nbdev
 # Frameworks
     - prefect[templates,viz]
     - trains

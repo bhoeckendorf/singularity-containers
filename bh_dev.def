@@ -75,9 +75,9 @@ print(tf.test.is_gpu_available())"
     conda_envs/tensorflow1.yml        /root/
     config/jupyter_config.py          /opt/conda/etc/jupyter/
     config/nginx_jupyter.conf         /opt/conda/etc/jupyter/
-    config/preload_jupyter.py         /etc/dask/
-    config/distributed.yml            /etc/dask/
-    config/jobqueue.yml               /etc/dask/
+    config/dask_preload_jupyter.py    /etc/dask/preload_jupyter.py
+    config/dask_distributed.yml       /etc/dask/distributed.yml
+    config/dask_jobqueue.yml          /etc/dask/jobqueue.yml
     config/code-server_config.yml     /opt/code-server/etc/config.yaml
     config/nginx_code-server.conf     /opt/code-server/etc/
     secrets/htpasswd                  /etc/nginx/.htpasswd
