@@ -66,7 +66,7 @@ print(tf.config.list_physical_devices('GPU'))"
 print(tf.test.is_gpu_available())"
 
 %files
-    software/l_ipp_2020.2.254.tgz     /root/
+    software/l_ipp_2020.3.304.tgz     /root/
     config/gitignore                  /etc/gitignore
     config/gitconfig                  /etc/gitconfig
     config/nginx.conf                 /etc/nginx/
@@ -120,8 +120,8 @@ print(tf.test.is_gpu_available())"
 
     # Intel IPP
     cd /root/
-    tar -xzf l_ipp_2020.2.254.tgz
-    cd l_ipp_2020.2.254/
+    tar -xzf l_ipp_2020.3.304.tgz
+    cd l_ipp_2020.3.304/
     printf "\
 ACCEPT_EULA=accept
 CONTINUE_WITH_OPTIONAL_ERROR=yes
@@ -135,7 +135,7 @@ ARCH_SELECTED=ALL
 " > bh_silent.cfg
     ./install.sh -s bh_silent.cfg
     cd ..
-    rm -rf l_ipp_2020.2.254.tgz l_ipp_2020.2.254/
+    rm -rf l_ipp_2020.3.304.tgz l_ipp_2020.3.304/
     cd
 
 
