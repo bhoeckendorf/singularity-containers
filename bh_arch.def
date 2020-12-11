@@ -26,7 +26,7 @@ from: archlinux/base
     reflector -c "United States" -p "https" -f 10 --sort rate --save /etc/pacman.d/mirrorlist
 
     pacman -S --needed --noconfirm \
-      bash-completion exa grep htop iputils lsof man-db man-pages mc nano psmisc unzip wget
+      bash-completion exa grep htop iputils iproute2 lsof man-db man-pages mc nano psmisc tmux unzip wget
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
