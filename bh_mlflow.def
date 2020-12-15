@@ -3,7 +3,9 @@ from: bh_arch.sif
 
 %startscript
     nginx
-    exec mlflow server -p 5001 -w 2 --default-artifact-root ${MYDIR}/var/mlflow/mlruns --backend-store-uri ${MYDIR}/var/mlflow/mlruns
+    exec mlflow server -p 5001 -w 2 \
+      --backend-store-uri file://${MYDIR}/var/mlflow/mlruns \
+      --default-artifact-root file://${MYDIR}/var/mlflow/mlruns
 
 %files
     config/gitconfig                  /etc/gitconfig
@@ -20,8 +22,8 @@ from: bh_arch.sif
     export MYDIR=${CBIDIR}/common/burkhard
 
     pacman -Syu --noconfirm
-    pacman -S --needed --noconfirm git git-lfs nginx-mainline python-pip
-    pip install --no-cache-dir mlflow
+    pacman -S --needed --noconfirm gcc git git-lfs libyaml nginx-mainline python-pip
+    pip install --no-cache-dir mlflow mlflow-torchserve
 
     mkdir -p /var/cache/pacman/pkg
     yes | pacman -Scc
