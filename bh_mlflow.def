@@ -41,6 +41,9 @@ from: bh_arch.sif
     # use port 5000
     sed -i "s/4433 ssl/5000 ssl/" /etc/nginx/nginx.conf
 
+    # set location of PID file
+    sed -i "s/nginx.pid;/bh_mlflow_nginx.pid;/" /etc/nginx/nginx.conf
+
 %environment
     export CBIDIR=/research/sharedresources/cbi
     export MYDIR=${CBIDIR}/common/burkhard

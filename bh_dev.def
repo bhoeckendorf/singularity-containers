@@ -4,22 +4,29 @@ from: bh_arch.sif
 %runscript
     source /etc/profile.d/*
     conda activate
-    python "$@"
+    exec python "$@"
+
+%startscript
+    source /etc/profile.d/*
+    conda activate
+    exec jupyter lab \
+      --config=${CONDA_HOME}/etc/jupyter/jupyter_config.py \
+      --notebook-dir=${MYDIR}
 
 %apprun python
     source /etc/profile.d/*
     conda activate
-    python "$@"
+    exec python "$@"
 
 %apprun ipython
     source /etc/profile.d/*
     conda activate
-    ipython "$@"
+    exec ipython "$@"
 
 %apprun jupyter
     source /etc/profile.d/*
     conda activate
-    jupyter lab \
+    exec jupyter lab \
       --config=${CONDA_HOME}/etc/jupyter/jupyter_config.py \
       --notebook-dir=${MYDIR} \
       "$@"
@@ -27,7 +34,7 @@ from: bh_arch.sif
 %apprun code
     source /etc/profile.d/*
     # conda activate
-    code-server \
+    exec code-server \
       --config=${CODER_HOME}/etc/config.yaml \
       --disable-telemetry \
       ${MYDIR}
@@ -35,34 +42,34 @@ from: bh_arch.sif
 %apprun conda
     source /etc/profile.d/*
     conda activate
-    conda "$@"
+    exec conda "$@"
 
 %apprun pip
     source /etc/profile.d/*
     conda activate
-    ${CONDA_HOME}/bin/pip "$@"
+    exec ${CONDA_HOME}/bin/pip "$@"
 
 %apprun tensorboard
     source /etc/profile.d/*
     conda activate
-    tensorboard --logdir="$@"
+    exec tensorboard --logdir="$@"
 
 %apprun pytorch_test_gpu
     source /etc/profile.d/*
     conda activate
-    python -c "import torch
+    exec python -c "import torch
 print(torch.cuda.is_available())"
 
 %apprun tensorflow_test_gpu
     source /etc/profile.d/*
     conda activate
-    python -c "import tensorflow as tf
+    exec python -c "import tensorflow as tf
 print(tf.config.list_physical_devices('GPU'))"
 
 %apprun tensorflow1_test_gpu
     source /etc/profile.d/*
     conda activate tensorflow1
-    python -c "import tensorflow as tf
+    exec python -c "import tensorflow as tf
 print(tf.test.is_gpu_available())"
 
 %files

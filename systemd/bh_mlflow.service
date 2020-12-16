@@ -1,0 +1,15 @@
+[Unit]
+Description=MLflow tracking server
+After=network.target
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=5
+User=bhoecken
+PIDFile=/run/user/1019568/bh_mlflow.pid
+ExecStart=/opt/singularity/bin/singularity instance start --nv -B /research -B /run/user/1019568 -B /var/lib/nginx -B /var/log/nginx --pid-file /run/user/1019568/bh_mlflow.pid /opt/bh_containers/bh_mlflow.sif bh_mlflow
+ExecStop=/opt/singularity/bin/singularity instance stop bh_mlflow
+
+[Install]
+WantedBy=multi-user.target
