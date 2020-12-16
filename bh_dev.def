@@ -141,25 +141,15 @@ ARCH_SELECTED=ALL
 
 
     ########################
-    #  SSL & nginx         #
+    #  nginx               #
     ########################
-
-    # take DH params, certificate and passwork from secrets, don't generate or fetch
-    #curl https://ssl-config.mozilla.org/ffdhe4096.txt > /etc/ssl/dhparam.pem
-    #openssl dhparam -out /etc/ssl/dhparam.pem 4096
-
-    #openssl req -x509 -nodes -sha256 -days 3650 -newkey rsa:4096 \
-    #  -subj "/C=US/ST=Tennessee/L=Memphis/O=St Jude Children's Research Hospital/OU=Center for Bioimage Informatics/CN=/emailAddress=cbi@stjude.org" \
-    #  -keyout /etc/ssl/private/bh-selfsigned.key -out /etc/ssl/certs/bh-selfsigned.crt
-
-    #printf "${username}:`openssl passwd -apr1`\n" >> /etc/nginx/.htpasswd
 
     # file permissions not ideal, but needed to run in container without root
     mkdir -p /run/nginx /etc/nginx/sites-available /etc/nginx/sites-enabled
     chmod -R 644 \
       /etc/ssl/dhparam.pem /etc/ssl/certs/bh-selfsigned.crt /etc/ssl/private/bh-selfsigned.key \
-      /etc/nginx/nginx.conf /etc/nginx/sites-available/ /etc/nginx/sites-enabled/
-    chmod -R 777 /var/lib/nginx/ /var/log/nginx/ /run/nginx/
+      /etc/nginx/nginx.conf
+    chmod -R 777 /var/lib/nginx/ /var/log/nginx/ /run/nginx/ /etc/nginx/sites-*
 
 
 
@@ -298,6 +288,8 @@ ARCH_SELECTED=ALL
     export JULIA_DEPOT_PATH=${MYDIR}/var/julia
     export CODER_HOME=/opt/code-server
     source /etc/profile.d/*
+    export MLFLOW_TRACKING_URI=https://bioimg-wkst03.stjude.sjcrh.local:5000
+    export MLFLOW_TRACKING_USERNAME=burkhard
     export JUPYTER_ALLOW_INSECURE_WRITES=true
     export HPC_DIR=/hpcf/lsf/lsf_prod/10.1/linux3.10-glibc2.17-x86_64/bin
     export PATH=${PATH}:/opt/cuda/bin:${CARGO_HOME}/bin:${GOPATH}/bin:${CODER_HOME}/bin:${HPC_DIR}
