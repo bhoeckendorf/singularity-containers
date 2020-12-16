@@ -4,7 +4,7 @@ from: bh_arch.sif
 %startscript
     nginx
     exec mlflow server -p 5001 -w 2 \
-      --backend-store-uri file://${MYDIR}/var/mlflow/mlruns \
+      --backend-store-uri sqlite:///home/bhoecken/var/mlflow/mlflow.sqlite \
       --default-artifact-root file://${MYDIR}/var/mlflow/mlruns
 
 %files
