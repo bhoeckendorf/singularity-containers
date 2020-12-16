@@ -27,9 +27,9 @@ dependencies:
   - cppyy-cling
   - cudatoolkit =10.1.*
   - cupti
-  - cupy >=7.6
+  - cupy
   - cython
-  - dask >=2.19
+  - dask
   - dask-cuda
   - dask-distance
   - dask-funk
@@ -75,7 +75,7 @@ dependencies:
   - librosa
   - lmdb
   - mayavi
-  - matplotlib >=3.2
+  - matplotlib >=3.3
   - matplotlib-scalebar
   - memory_profiler
   - menpo
@@ -94,7 +94,7 @@ dependencies:
   - numpy >=1.19
   - opencv
   - openpyxl
-  - pandas >=1.0.4
+  - pandas >=1.1
   - pandas-datareader
   - pandas_ml
   - pandasql
@@ -174,10 +174,10 @@ dependencies:
   - tifffile
   - toml
   - torch-model-archiver
-  - torchaudio
+  - torchaudio >=0.7
   # - torchserve
-  - torchtext
-  - torchvision
+  - torchtext >=0.8
+  - torchvision >=0.8
   - tqdm
   - transforms3d
   - umap-learn
@@ -186,7 +186,7 @@ dependencies:
   - visdom
   - vispy
   - vtk
-  - xarray
+  - xarray >=0.16
   - xarray-extras
   - xarray-spatial
   - xeus-cling
@@ -214,7 +214,7 @@ dependencies:
   - conda-build
   - conda-verify
   - flake8
-  - isort =4
+  - isort
   - jedi
   - mccabe
   - papermill
@@ -225,7 +225,7 @@ dependencies:
   - pylint
   - pyls-black
   - pyls-mypy
-  - pytest
+  - pytest >=6.1
   - pytest-flake8
   - pytest-mccabe
   - pytest-mock
@@ -233,7 +233,7 @@ dependencies:
   - pytest-mypy
   - pytest-pylint
   - rope
-  - sphinx
+  - sphinx >=3.3
   - sphinx-argparse
   - sphinx-autoapi
   - sphinx-autobuild
@@ -278,6 +278,7 @@ dependencies:
     - flywheel-metadata-toolkit
     - flywheel-sdk
     - gunpowder
+    # - jax ==0.2.7+cuda101
     - mxnet_cu101mkl
     - neuroglancer
     - neuroglancer-annotation-ui

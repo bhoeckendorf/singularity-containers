@@ -8,9 +8,9 @@ dependencies:
   - colorcet
   - cudatoolkit =10.0.*
   - cupti
-  - cupy >=7.6
+  - cupy
   - cython
-  - dask >=2.19
+  - dask
   - dask-cuda
   - dask-distance
   - dask-funk
@@ -38,11 +38,11 @@ dependencies:
   - intake-parquet
   - intake-xarray
   - ipython
-  - itk >=5
+  - itk
   - itk-meshtopolydata
   - javabridge
   - jsonpatch
-  - matplotlib >=3.2
+  - matplotlib >=3.3
   - matplotlib-scalebar
   - memory_profiler
   - mrcfile
@@ -52,10 +52,10 @@ dependencies:
   - numba
   - numcodecs
   - numexpr
-  - numpy >=1.18
-  - opencv >=4.2
+  - numpy >=1.19
+  - opencv
   - openpyxl
-  - pandas >=1.0.4
+  - pandas >=1.1
   - pandas-datareader
   - pandas_ml
   - pandasql
@@ -92,8 +92,8 @@ dependencies:
   - scikit-fmm
   - scikit-fuzzy
   - scikit-garden
-  - scikit-image >=0.16
-  - scikit-learn >=0.23
+  - scikit-image
+  - scikit-learn
   - scikit-learn-extra
   - scikit-mdr
   - scikit-multiflow
@@ -105,7 +105,7 @@ dependencies:
   - scipy >=1.5
   - seaborn
   - sentencepiece
-  - simpleitk >=1.2.4
+  - simpleitk
   - slicerator
   - sox
   - sqlalchemy
@@ -126,7 +126,7 @@ dependencies:
   - visdom
   - vispy
   - vtk
-  - xarray >=0.15
+  - xarray >=0.16
   - xarray-extras
   - xarray-spatial
   - xlrd
@@ -147,14 +147,10 @@ dependencies:
   - pip:
     - augment-nd
     - elasticdeform
-    - flywheel-cli
-    - flywheel-gear-toolkit
-    - flywheel-gears
-    - flywheel-metadata-toolkit
     - flywheel-sdk
     - numbagg
     - pymeshfix
-    - python-bioformats
+    # - python-bioformats
     - tensorlayer[all] ==1.11.0
     - git+https://github.com/cocodataset/panopticapi.git
     - git+https://github.com/waspinator/pycococreator.git
