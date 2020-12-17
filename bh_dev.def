@@ -39,16 +39,6 @@ from: bh_arch.sif
       --disable-telemetry \
       ${MYDIR}
 
-%apprun conda
-    source /etc/profile.d/*
-    conda activate
-    exec conda "$@"
-
-%apprun pip
-    source /etc/profile.d/*
-    conda activate
-    exec ${CONDA_HOME}/bin/pip "$@"
-
 %apprun tensorboard
     source /etc/profile.d/*
     conda activate
