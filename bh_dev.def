@@ -181,12 +181,12 @@ ARCH_SELECTED=ALL
     # conda index ${MYDIR}/var/conda/channel
 
     conda update --all
+    conda install mamba
 
     conda activate base
-    conda env update -f /root/base.yml
-    ${CONDA_HOME}/bin/python -m pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.7/index.html
+    mamba env update -f /root/base.yml
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.7/index.html
     ${CONDA_HOME}/bin/python -m pip install --no-cache-dir --no-deps cellpose
-
     ${CONDA_HOME}/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
     ${CONDA_HOME}/bin/jupyter labextension install \
       jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets bqplot @jupyter-voila/jupyterlab-preview qgrid2 # k3d @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
@@ -200,7 +200,7 @@ ARCH_SELECTED=ALL
     ln -s ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf /etc/nginx/sites-available/jupyter.conf
     #ln -s /etc/nginx/sites-available/jupyter.conf /etc/nginx/sites-enabled/
 
-    conda env create -f /root/tensorflow1.yml
+    mamba env create -f /root/tensorflow1.yml
 
     # Enable conda channels, envs, pkgs. Initially disabled because paths aren't mounted during build.
     sed -i "s/  # -/  -/" /etc/conda/condarc
