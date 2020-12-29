@@ -2,10 +2,10 @@ channel_priority: flexible
 channels:
   # - file://${MYDIR}/var/conda/channel
   - pytorch
-  - fastai
   - rapidsai
   - nvidia
   - conda-forge
+  - fastai
   - defaults
 envs_dirs:
   # - ${MYDIR}/var/conda/envs

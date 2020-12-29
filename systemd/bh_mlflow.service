@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=forking
-Restart=always
+Restart=no
 RestartSec=5
 User=bhoecken
 PIDFile=/run/user/1019568/bh_mlflow.pid

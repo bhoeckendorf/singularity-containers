@@ -11,7 +11,7 @@ from: bh_arch.sif
     conda activate
     exec jupyter lab \
       --config=${CONDA_HOME}/etc/jupyter/jupyter_config.py \
-      --notebook-dir=${MYDIR}
+      --notebook-dir=${MYDIR} "$@"
 
 %apprun python
     source /etc/profile.d/*
@@ -171,12 +171,13 @@ ARCH_SELECTED=ALL
     # conda index ${MYDIR}/var/conda/channel
 
     conda update --all
-    conda install mamba
+    conda install "mamba>=0.7"
 
     conda activate base
     mamba env update -f /root/base.yml
     ${CONDA_HOME}/bin/python -m pip install --no-cache-dir detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.7/index.html
     ${CONDA_HOME}/bin/python -m pip install --no-cache-dir --no-deps cellpose
+
     ${CONDA_HOME}/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
     ${CONDA_HOME}/bin/jupyter labextension install \
       jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets bqplot @jupyter-voila/jupyterlab-preview qgrid2 # k3d @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
@@ -253,21 +254,21 @@ ARCH_SELECTED=ALL
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension llvm-vs-code-extensions.vscode-clangd
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension xaver.clang-format
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-vscode.cmake-tools
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.java
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension vscjava.vscode-java-pack
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension mathiasfrohlich.kotlin
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.java
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension vscjava.vscode-java-pack
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension mathiasfrohlich.kotlin
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.python
     code-server --config=${CODER_HOME}/etc/config.yaml --install-extension ms-python.anaconda-extension-pack
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension rust-lang.rust
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension golang.go
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension donjayamanne.githistory
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension James-Yu.latex-workshop
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension dbankier.vscode-instant-markdown
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension yzane.markdown-pdf
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-xml
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-yaml
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
-    code-server --config=${CODER_HOME}/etc/config.yaml --install-extension streetsidesoftware.code-spell-checker
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension rust-lang.rust
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension golang.go
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension donjayamanne.githistory
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension James-Yu.latex-workshop
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension dbankier.vscode-instant-markdown
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension yzane.markdown-pdf
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-xml
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension redhat.vscode-yaml
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension bungcip.better-toml
+    # code-server --config=${CODER_HOME}/etc/config.yaml --install-extension streetsidesoftware.code-spell-checker
 
     chmod -R 777 ${CODER_HOME}
     ln -s ${CODER_HOME}/etc/nginx_code-server.conf /etc/nginx/sites-available/code-server.conf

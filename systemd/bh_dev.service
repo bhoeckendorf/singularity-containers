@@ -4,11 +4,11 @@ After=network.target
 
 [Service]
 Type=forking
-Restart=always
+Restart=no
 RestartSec=5
 User=bhoecken
 PIDFile=/run/user/1019568/bh_dev.pid
-ExecStart=/opt/singularity/bin/singularity instance start --nv -B /research -B /run/user/1019568 --pid-file /run/user/1019568/bh_dev.pid /home/bhoecken/src/singularity-containers/bh_dev.sif bh_dev
+ExecStart=/opt/singularity/bin/singularity instance start --nv -B /research -B /run/user/1019568 --pid-file /run/user/1019568/bh_dev.pid /opt/bh_containers/bh_dev.sif bh_dev
 ExecStop=/opt/singularity/bin/singularity instance stop bh_dev
 
 [Install]

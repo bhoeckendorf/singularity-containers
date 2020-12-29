@@ -54,14 +54,15 @@ dependencies:
   - firelight
   - google-cloud-storage
   - h5py
+  - hdbscan
   - hiplot
   - holoviews
   - hvplot
-  - ignite
+  # - ignite
   - imagecodecs
   - imageio
   - imageio-ffmpeg
-  - inferno
+  # - inferno
   - intake
   - intake-parquet
   - intake-xarray
@@ -99,7 +100,7 @@ dependencies:
   - pandas_ml
   - pandasql
   - panel
-  - pillow
+  - pillow >=8
   - pims
   - plotly
   - py4j
@@ -117,7 +118,7 @@ dependencies:
   - pyqtgraph
   - pyside2
   - pysoundfile
-  - pyspark
+  # - pyspark
   # - pyspark-stubs
   - pytables
   - pytesseract
@@ -147,7 +148,7 @@ dependencies:
   - scikit-image
   - scikit-learn
   - scikit-learn-extra
-  - scikit-mdr
+  # - scikit-mdr
   - scikit-multiflow
   - scikit-optimize
   - scikit-plot
@@ -199,12 +200,12 @@ dependencies:
   - xrft
   - xrviz
   - xtensor
-  - xtensor-blas
-  - xtensor-fftw
-  - xtensor-io
+  # - xtensor-blas
+  # - xtensor-fftw
+  # - xtensor-io
   - xtensor-python
   - yaml
-  - z5py
+  # - z5py
   - zarr
   - zbarlight
 # Utilities
@@ -251,37 +252,38 @@ dependencies:
   - ipykernel
   - ipywidgets
   # - jupyter_bokeh
-  - jupyterlab
+  - jupyterlab >=2.2.9,<3
   - jupyterlab-git
   - nb_conda_kernels
   - nbdev
 # Frameworks
-  - airflow
-  - dagit
-  - dagster
-  - metaflow
+  # - airflow
+  # - dagit
+  # - dagster
+  # - metaflow
   - mlflow
-  - neptune-client
-  - neptune-notebooks
+  # - neptune-client
+  # - neptune-notebooks
 # pip
   - pip
   - pip:
     - antspyx
     - arrayfire
     - augment-nd
-    - baal
+    # - baal
     - elasticdeform
-    - faust
-    - flywheel-cli
-    - flywheel-gear-toolkit
-    - flywheel-gears
-    - flywheel-metadata-toolkit
+    - fairscale
+    # - faust
+    # - flywheel-cli
+    # - flywheel-gear-toolkit
+    # - flywheel-gears
+    # - flywheel-metadata-toolkit
     - flywheel-sdk
     - gunpowder
     # - jax ==0.2.7+cuda101
     - mxnet_cu101mkl
-    - neuroglancer
-    - neuroglancer-annotation-ui
+    # - neuroglancer
+    # - neuroglancer-annotation-ui
     - numbagg
     # - pandasgui
     - pymeshfix
@@ -306,6 +308,6 @@ dependencies:
     # - jupyter-tensorboard
     # nvdashboard, dash, code-fromatter, tensorboard
 # Frameworks
-    - prefect[templates,viz]
-    - trains
-    - trains-agent
+    # - prefect[templates,viz]
+    - clearml
+    - clearml-agent

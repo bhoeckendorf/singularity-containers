@@ -60,7 +60,7 @@ dependencies:
   - pandas_ml
   - pandasql
   - panel
-  - pillow
+  - pillow >=8
   - pims
   - plotly
   - pyarrow
