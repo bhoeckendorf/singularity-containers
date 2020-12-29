@@ -200,9 +200,9 @@ dependencies:
   - xrft
   - xrviz
   - xtensor
-  # - xtensor-blas
-  # - xtensor-fftw
-  # - xtensor-io
+  - xtensor-blas
+  - xtensor-fftw
+  - xtensor-io
   - xtensor-python
   - yaml
   # - z5py
