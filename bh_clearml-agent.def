@@ -1,0 +1,59 @@
+bootstrap: localimage
+from: bh_arch.sif
+
+%runscript
+    source /etc/profile.d/*
+    conda activate
+    exec clearml-agent --config-file /opt/conda/etc/clearml/clearml.conf daemon --create-queue --queue priority default
+
+%files
+    config/gitignore                  /etc/gitignore
+    config/gitconfig                  /etc/gitconfig
+    config/condarc                    /etc/conda/condarc
+    config/dask_distributed.yml       /etc/dask/distributed.yml
+    config/dask_jobqueue.yml          /etc/dask/jobqueue.yml
+    config/clearml_agent.conf         /opt/conda/etc/clearml/clearml.conf
+
+%post
+    export CBIDIR=/research/sharedresources/cbi
+    export MYDIR=${CBIDIR}/common/burkhard
+    export CONDA_HOME=/opt/conda
+    export PATH=${PATH}:/opt/cuda/bin
+
+
+    pacman -Syu --noconfirm
+    pacman -S --needed --noconfirm \
+      base-devel gdb clang lld lldb openmp intel-tbb intel-mkl ccache cmake git git-lfs tk cpio \
+      blas cblas openblas lapack lapacke eigen fftw hdf5 ffmpeg openimageio zlib sqlite \
+      cuda cudnn nccl nvtop opencl-nvidia
+
+    mkdir -p /var/cache/pacman/pkg
+    yes | pacman -Scc
+    rm -rf /var/cache/pacman/pkg
+
+
+    curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -u -p ${CONDA_HOME}
+    rm Miniconda3-latest-Linux-x86_64.sh
+    ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+    source /etc/profile.d/conda.sh
+
+    conda activate
+    conda update --all
+    conda install "mamba>=0.7"
+    pip install --no-cache-dir clearml-agent
+    conda deactivate
+
+    # Enable conda channels, envs, pkgs. Initially disabled because paths aren't mounted during build.
+    sed -i "s/  # -/  -/" /etc/conda/condarc
+
+    chmod -R 777 /etc/conda/condarc ${CONDA_HOME}/pkgs
+    chmod -R 644 /etc/dask/
+
+%environment
+    export CBIDIR=/research/sharedresources/cbi
+    export MYDIR=${CBIDIR}/common/burkhard
+    export CONDA_HOME=/opt/conda
+    source /etc/profile.d/*
+    export HPC_DIR=/hpcf/lsf/lsf_prod/10.1/linux3.10-glibc2.17-x86_64/bin
+    export PATH=${PATH}:/opt/cuda/bin:${HPC_DIR}
