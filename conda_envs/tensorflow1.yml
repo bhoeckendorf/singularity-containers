@@ -31,6 +31,7 @@ dependencies:
   - h5py
   - holoviews
   - hvplot
+  - hydra-core
   - imagecodecs
   - imageio
   - imageio-ffmpeg

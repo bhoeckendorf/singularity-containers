@@ -175,15 +175,15 @@ ARCH_SELECTED=ALL
 
     conda activate base
     mamba env update -f /root/base.yml
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir jax jaxlib==0.1.57+cuda110 -f https://storage.googleapis.com/jax-releases/jax_releases.html
     ${CONDA_HOME}/bin/python -m pip install --no-cache-dir detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.7/index.html
-    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir --no-deps cellpose
 
-    ${CONDA_HOME}/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
-    ${CONDA_HOME}/bin/jupyter labextension install \
-      jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets bqplot @jupyter-voila/jupyterlab-preview qgrid2 # k3d @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
-      # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
-    ${CONDA_HOME}/bin/jupyter serverextension enable --py \
-      jupyter_http_over_ws # voila # jupyterlab_code_formatter
+    #${CONDA_HOME}/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
+    #${CONDA_HOME}/bin/jupyter labextension install \
+    #  jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets bqplot @jupyter-voila/jupyterlab-preview qgrid2 # k3d @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
+    #  # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
+    #${CONDA_HOME}/bin/jupyter serverextension enable --py \
+    #  jupyter_http_over_ws # voila # jupyterlab_code_formatter
     ${CONDA_HOME}/bin/jupyter lab build
     conda deactivate
 

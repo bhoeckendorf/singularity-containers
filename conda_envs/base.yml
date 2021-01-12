@@ -58,6 +58,7 @@ dependencies:
   - hiplot
   - holoviews
   - hvplot
+  - hydra-core
   # - ignite
   - imagecodecs
   - imageio
@@ -250,9 +251,10 @@ dependencies:
 # Jupyter
   - itkwidgets
   - ipykernel
+  - ipympl
   - ipywidgets
   # - jupyter_bokeh
-  - jupyterlab >=2.2.9,<3
+  - jupyterlab >=3
   - jupyterlab-git
   - nb_conda_kernels
   - nbdev
@@ -271,6 +273,7 @@ dependencies:
     - arrayfire
     - augment-nd
     # - baal
+    - cellpose
     - elasticdeform
     - fairscale
     # - faust
@@ -280,8 +283,8 @@ dependencies:
     # - flywheel-metadata-toolkit
     - flywheel-sdk
     - gunpowder
-    # - jax ==0.2.7+cuda101
-    - mxnet_cu101mkl
+    # - jax
+    # - jaxlib ==0.1.57+cuda101
     # - neuroglancer
     # - neuroglancer-annotation-ui
     - numbagg
