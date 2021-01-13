@@ -49,6 +49,7 @@ dependencies:
   - discretize
   - distributed
   - etcd
+  - fbprophet
   - ffmpeg-python
   - findspark
   - firelight
@@ -274,6 +275,7 @@ dependencies:
     - augment-nd
     # - baal
     - cellpose
+    - cnvrg
     - elasticdeform
     - fairscale
     # - faust
