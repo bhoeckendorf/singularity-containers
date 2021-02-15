@@ -56,12 +56,6 @@ print(torch.cuda.is_available())"
     exec python -c "import tensorflow as tf
 print(tf.config.list_physical_devices('GPU'))"
 
-%apprun tensorflow1_test_gpu
-    source /etc/profile.d/*
-    conda activate tensorflow1
-    exec python -c "import tensorflow as tf
-print(tf.test.is_gpu_available())"
-
 %files
     software/l_ipp_2020.3.304.tgz     /root/
     config/gitignore                  /etc/gitignore
@@ -69,7 +63,6 @@ print(tf.test.is_gpu_available())"
     config/nginx.conf                 /etc/nginx/
     config/condarc                    /etc/conda/condarc
     conda_envs/base.yml               /root/
-    conda_envs/tensorflow1.yml        /root/
     config/jupyter_config.py          /opt/conda/etc/jupyter/
     config/nginx_jupyter.conf         /opt/conda/etc/jupyter/
     config/dask_preload_jupyter.py    /etc/dask/preload_jupyter.py
@@ -175,15 +168,26 @@ ARCH_SELECTED=ALL
 
     conda activate base
     mamba env update -f /root/base.yml
-    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir jax jaxlib==0.1.57+cuda110 -f https://storage.googleapis.com/jax-releases/jax_releases.html
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir --extra-index-url https://developer.download.nvidia.com/compute/redist nvidia-dali-cuda100 nvidia-dali-tf-plugin-cuda100
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir jax jaxlib==0.1.57+cuda101 -f https://storage.googleapis.com/jax-releases/jax_releases.html
     ${CONDA_HOME}/bin/python -m pip install --no-cache-dir detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.7/index.html
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir mmcv-full==latest+torch1.7.0+cu101 -f https://download.openmmlab.com/mmcv/dist/index.html
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir git+https://github.com/open-mmlab/mmclassification.git
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir git+https://github.com/open-mmlab/mmdetection.git
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir git+https://github.com/open-mmlab/mmsegmentation.git
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir git+https://github.com/open-mmlab/mmpose.git
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir git+https://github.com/open-mmlab/mmediting.git
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir git+https://github.com/open-mmlab/mmtracking.git
+    ${CONDA_HOME}/bin/python -m pip install --no-cache-dir git+https://github.com/open-mmlab/openselfsup.git
 
     #${CONDA_HOME}/bin/jupyter labextension install @jupyter-widgets/jupyterlab-manager
     #${CONDA_HOME}/bin/jupyter labextension install \
-    #  jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets bqplot @jupyter-voila/jupyterlab-preview qgrid2 # k3d @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
+    #  jupyter-matplotlib jupyterlab-datawidgets @pyviz/jupyterlab_pyviz itkwidgets @jupyter-voila/jupyterlab-preview qgrid2 # k3d @bokeh/jupyter_bokeh # jupyterlab-nvdashboard
     #  # jupyterlab_tensorboard @ryantam626/jupyterlab_code_formatter
     #${CONDA_HOME}/bin/jupyter serverextension enable --py \
     #  jupyter_http_over_ws # voila # jupyterlab_code_formatter
+
+    ${CONDA_HOME}/bin/jupyter labextension install itkwidgets # jupyterlab-nvdashboard
     ${CONDA_HOME}/bin/jupyter lab build
     conda deactivate
 
@@ -191,16 +195,13 @@ ARCH_SELECTED=ALL
     ln -s ${CONDA_HOME}/etc/jupyter/nginx_jupyter.conf /etc/nginx/sites-available/jupyter.conf
     #ln -s /etc/nginx/sites-available/jupyter.conf /etc/nginx/sites-enabled/
 
-    mamba env create -f /root/tensorflow1.yml
-
     # Enable conda channels, envs, pkgs. Initially disabled because paths aren't mounted during build.
     sed -i "s/  # -/  -/" /etc/conda/condarc
 
     rm -r \
       ${CONDA_HOME}/share/jupyter/kernels/xcpp11 \
       ${CONDA_HOME}/share/jupyter/kernels/xcpp14 \
-      /root/base.yml \
-      /root/tensorflow1.yml
+      /root/base.yml
     chmod -R 777 /etc/conda/condarc ${CONDA_HOME}/pkgs
     chmod -R 644 /etc/dask/
 

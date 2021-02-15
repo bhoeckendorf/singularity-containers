@@ -1,5 +1,6 @@
 name: base
 dependencies:
+  - addict
   - albumentations
   - beakerx
   - biopython
@@ -53,6 +54,7 @@ dependencies:
   - ffmpeg-python
   - findspark
   - firelight
+  - fsspec
   - google-cloud-storage
   - h5py
   - hdbscan
@@ -64,6 +66,7 @@ dependencies:
   - imagecodecs
   - imageio
   - imageio-ffmpeg
+  - imgaug
   # - inferno
   - intake
   - intake-parquet
@@ -95,7 +98,7 @@ dependencies:
   - numcodecs
   - numexpr
   - numpy >=1.19
-  - opencv
+  - opencv-python-headless
   - openpyxl
   - pandas >=1.1
   - pandas-datareader
@@ -128,7 +131,7 @@ dependencies:
   - python-confluent-kafka
   - python-dateutil
   - python-language-server
-  - pytorch =1.7.*
+  - pytorch >=1.7.1
   - pytorch-lightning
   - pyvista
   - pyviz_comms
@@ -136,7 +139,7 @@ dependencies:
   - pyxtensor
   - pyyaml
   - pyzbar
-  - qgrid
+  # - qgrid
   # - rapids >=0.16
   # - rapids-xgboost
   - recommonmark
@@ -180,7 +183,7 @@ dependencies:
   - torchaudio >=0.7
   # - torchserve
   - torchtext >=0.8
-  - torchvision >=0.8
+  - torchvision >=0.8.2
   - tqdm
   - transforms3d
   - umap-learn
@@ -250,6 +253,7 @@ dependencies:
   - voila
   - yapf
 # Jupyter
+  # - dtale  # pip for now
   - itkwidgets
   - ipykernel
   - ipympl
@@ -257,6 +261,7 @@ dependencies:
   # - jupyter_bokeh
   - jupyterlab >=3
   - jupyterlab-git
+  - jupyterlab-nvdashboard
   - nb_conda_kernels
   - nbdev
 # Frameworks
@@ -276,7 +281,10 @@ dependencies:
     # - baal
     - cellpose
     - cnvrg
+    - dataget
+    - dtale
     - elasticdeform
+    - elegy
     - fairscale
     # - faust
     # - flywheel-cli
@@ -285,15 +293,21 @@ dependencies:
     # - flywheel-metadata-toolkit
     - flywheel-sdk
     - gunpowder
+    - git+https://github.com/deepmind/dm-haiku
+    - iterative-stratification
     # - jax
     # - jaxlib ==0.1.57+cuda101
     # - neuroglancer
     # - neuroglancer-annotation-ui
     - numbagg
+    - ome-zarr
+    - omero-py
+    - omero-rois
     # - pandasgui
     - pymeshfix
     - pyn5
     - python-bioformats
+    - python-kaleido
     - ray
     # - scikit-cuda  # (outdated?)
     - sphinx-rtd-theme
