@@ -17,3 +17,5 @@ from: nvcr.io/nvidia/clara-train-sdk:v3.1.01
     export CBIDIR=/research/sharedresources/cbi
     export MYDIR=${CBIDIR}/common/burkhard
     export AIAADIR=${MYDIR}/var/aiaa
+    export PATH=${PATH}:/opt/ngc
+    export PYTHONPATH=${PYTHONPATH}:/opt/nvidia/medical
