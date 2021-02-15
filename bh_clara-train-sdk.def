@@ -5,7 +5,7 @@ from: nvcr.io/nvidia/clara-train-sdk:v3.1.01
     exec /bin/sh "$@"
 
 %startscript
-    start_aas.sh "$@"
+    exec start_aas.sh "$@"
 
 %post
     sed -i "s/APACHE_RUN_USER=www-data/APACHE_RUN_USER=bhoecken/" /etc/apache2/envvars
