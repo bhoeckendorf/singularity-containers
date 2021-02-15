@@ -1,0 +1,19 @@
+bootstrap: docker
+from: nvcr.io/nvidia/clara-train-sdk:v3.1.01
+
+%runscript
+    exec /bin/sh "$@"
+
+%startscript
+    start_aas.sh "$@"
+
+%post
+    sed -i "s/APACHE_RUN_USER=www-data/APACHE_RUN_USER=bhoecken/" /etc/apache2/envvars
+    sed -i "s/APACHE_RUN_GROUP=www-data/APACHE_RUN_GROUP=users/" /etc/apache2/envvars
+    sed -i "s/User \${APACHE_RUN_USER}/User bhoecken/" /etc/apache2/apache2.conf
+    sed -i "s/Group \${APACHE_RUN_GROUP}/Group users/" /etc/apache2/apache2.conf
+
+%environment
+    export CBIDIR=/research/sharedresources/cbi
+    export MYDIR=${CBIDIR}/common/burkhard
+    export AIAADIR=${MYDIR}/var/aiaa
