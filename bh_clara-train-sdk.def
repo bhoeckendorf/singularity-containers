@@ -13,9 +13,19 @@ from: nvcr.io/nvidia/clara-train-sdk:v3.1.01
     sed -i "s/User \${APACHE_RUN_USER}/User bhoecken/" /etc/apache2/apache2.conf
     sed -i "s/Group \${APACHE_RUN_GROUP}/Group users/" /etc/apache2/apache2.conf
 
+    export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
+    export TZCFG=`mktemp -t tzcfg.XXXXXX.txt`
+    printf "tzdata tzdata/Areas select US
+tzdata tzdata/Zones/US select Central" > $TZCFG
+    debconf-set-selections $TZCFG
+    apt-get update
+    apt-get install --reinstall -y tzdata
+    rm $TZCFG
+
+    python -m pip install --no-cache-dir --no-deps --force-reinstall pytz
+
 %environment
     export CBIDIR=/research/sharedresources/cbi
     export MYDIR=${CBIDIR}/common/burkhard
     export AIAADIR=${MYDIR}/var/aiaa
-    export PATH=${PATH}:/opt/ngc
     export PYTHONPATH=${PYTHONPATH}:/opt/nvidia/medical
