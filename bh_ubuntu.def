@@ -1,0 +1,14 @@
+bootstrap: docker
+from: ubuntu:groovy
+
+%runscript
+    exec /bin/sh "$@"
+
+%post
+    printf 'Dir::Cache "";\nDir::Cache::archives "";\n' > /etc/apt/apt.conf.d/00_disable-cache-directories
+    rm -rf /var/cache/apt/archives/*
+
+    apt-get update
+    apt-get upgrade -y
+
+    apt-get install -y aptitude bash-completion exa htop lsof mc nano psmisc rsync tmux unzip wget  # iputils-ping iproute2
