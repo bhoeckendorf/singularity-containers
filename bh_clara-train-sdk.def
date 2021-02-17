@@ -15,8 +15,7 @@ from: nvcr.io/nvidia/clara-train-sdk:v3.1.01
 
     export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
     export TZCFG=`mktemp -t tzcfg.XXXXXX.txt`
-    printf "tzdata tzdata/Areas select US
-tzdata tzdata/Zones/US select Central" > $TZCFG
+    printf 'tzdata tzdata/Areas select US\ntzdata tzdata/Zones/US select Central\n' > $TZCFG
     debconf-set-selections $TZCFG
     apt-get update
     apt-get install --reinstall -y tzdata
