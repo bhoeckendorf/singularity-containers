@@ -9,6 +9,24 @@ from: ubuntu:groovy
     rm -rf /var/cache/apt/archives/*
 
     apt-get update
-    apt-get upgrade -y
 
+    export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
+    export TZCFG=`mktemp -t tzcfg.XXXXXX.txt`
+    printf 'tzdata tzdata/Areas select US\ntzdata tzdata/Zones/US select Central\n' > $TZCFG
+    debconf-set-selections $TZCFG
+    apt-get install -y tzdata
+    rm $TZCFG
+
+    apt-get install -y locales
+    printf 'LANG=en_US.UTF-8' > /etc/default/locale
+    locale-gen --purge en_US.UTF-8
+    update-locale LANG=en_US.UTF-8
+    update-locale LANGUAGE=en_US:en
+    dpkg-reconfigure locales
+
+    apt-get upgrade -y
     apt-get install -y aptitude bash-completion exa htop lsof mc nano psmisc rsync tmux unzip wget  # iputils-ping iproute2
+
+    #locale-gen --purge en_US.UTF-8
+    #update-locale LANG=en_US.UTF-8
+    #update-locale LANGUAGE=en_US:en
