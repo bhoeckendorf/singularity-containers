@@ -1,0 +1,18 @@
+bootstrap: localimage
+from: bh_ubuntu.sif
+
+%runscript
+    exec /bin/sh "$@"
+
+%startscript
+    exec tcpserver -HRDl0 0.0.0.0 2222 /usr/sbin/tinysshd -x sftp=/usr/bin/sftp /etc/tinyssh/sshkeydir
+
+%files
+    secrets/ed25519.pk /etc/tinyssh/sshkeydir/
+    secrets/ed25519.sk /etc/tinyssh/sshkeydir/.ed25519.sk
+
+%post
+    apt-get update
+    apt-get upgrade -y
+    apt-get install -y openssh-sftp-server tinysshd ucspi-tcp-ipv6
+    chmod -R 755 /etc/tinyssh/
