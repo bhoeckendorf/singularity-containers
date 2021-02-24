@@ -5,7 +5,7 @@ from: bh_ubuntu.sif
     exec /bin/sh "$@"
 
 %startscript
-    exec tcpserver -HRDl0 0.0.0.0 2222 /usr/sbin/tinysshd -x sftp=/usr/bin/sftp /etc/tinyssh/sshkeydir
+    exec tcpserver -HRDl0 0.0.0.0 2222 /usr/sbin/tinysshd -x sftp=/usr/lib/openssh/sftp-server /etc/tinyssh/sshkeydir
 
 %files
     secrets/ed25519.pk /etc/tinyssh/sshkeydir/
