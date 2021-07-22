@@ -7,3 +7,7 @@
 [user]
     name = Burkhard Hoeckendorf
     email = burkhard.hoeckendorf@pm.me
+[credential "https://github.com"]
+    username = bhoeckendorf
+[credential "https://gitlab.org"]
+    username = bhoeckendorf
