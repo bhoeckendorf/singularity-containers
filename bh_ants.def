@@ -1,5 +1,35 @@
 bootstrap: localimage
-from: bh_arch.sif
+from: bh_ubuntu.sif
+stage: build
+
+%post
+    apt-get update
+    apt-get upgrade -y
+    apt-get install -y build-essential cmake git zlib1g-dev
+
+    mkdir /opt/src
+    cd /opt/src
+    git clone --branch v2.3.5 --single-branch --depth 1 https://github.com/ANTsX/ANTs.git
+
+    mkdir ants-build
+    cd ants-build
+
+    # GIT_PROTOCOL=FALSE tricks firewall by switching git:// to https://
+    cmake \
+      -DBUILD_SHARED_LIBS=TRUE \
+      -DBUILD_TESTING=FALSE \
+      -DCMAKE_INSTALL_PREFIX=/opt/ants \
+      -DSuperBuild_ANTS_USE_GIT_PROTOCOL=FALSE \
+      /opt/src/ANTs
+    make -j4
+    cd ANTS-build
+    make install
+
+
+
+bootstrap: localimage
+from: bh_ubuntu.sif
+stage: final
 
 %runscript
     exec /bin/sh "$@"
@@ -10,44 +40,16 @@ from: bh_arch.sif
 %apprun antsApplyTransforms
     exec antsApplyTransforms "$@"
 
-%post
-    ANTS_HOME=/opt/ants
-    ANTSPATH=${ANTS_HOME}/bin
-    echo "export ANTS_HOME=${ANTS_HOME}" >>$SINGULARITY_ENVIRONMENT
-    echo "export ANTSPATH=${ANTSPATH}" >>$SINGULARITY_ENVIRONMENT
-    
+%files from build
+    /opt/ants /opt/ants
 
-    pacman -Syu --noconfirm
-    pacman -S --needed --noconfirm \
-      base-devel git cmake openmp intel-tbb \
-      intel-mkl fftw blas cblas openblas lapack lapacke eigen \
-      hdf5 openimageio zlib
-
-    mkdir -p /var/cache/pacman/pkg
-    yes | pacman -Scc
-    rm -rf /var/cache/pacman/pkg
-
-
-    git clone https://github.com/ANTsX/ANTs.git
-    cd ANTs
-    git checkout v2.3.4
-    mkdir build
-    cd build
-
-    # GIT_PROTOCOL=FALSE tricks firewall by switching git:// to https://
-    cmake \
-      -DBUILD_TESTING=FALSE \
-      -DCMAKE_INSTALL_PREFIX=${ANTS_HOME} \
-      -DSuperBuild_ANTS_USE_GIT_PROTOCOL=FALSE \
-      ../
-    make -j4
-    cd ANTS-build
-    make install
-
-    cd ../../../
-    rm -rf ANTs
+%post   
+    apt-get update
+    apt-get upgrade -y
+    apt-get install -y zlib1g
 
 %environment
     export ANTS_HOME=/opt/ants
     export ANTSPATH=${ANTS_HOME}/bin
-    export PATH=${PATH}:${ANTSPATH}
+    export PATH=${ANTSPATH}:${PATH}
+    export LD_LIBRARY_PATH=${ANTS_HOME}/lib:${LD_LIBRARY_PATH}
