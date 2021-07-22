@@ -9,6 +9,7 @@ from: ubuntu:hirsute
     printf 'Dir::Cache "";\nDir::Cache::archives "";\n' > /etc/apt/apt.conf.d/00_disable-cache-directories
     rm -rf /var/cache/apt/archives/*
 
+
     # Additional Ubuntu config
     export DEBIAN_FRONTEND=noninteractive
     printf 'locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8
@@ -20,10 +21,41 @@ keyboard-configuration keyboard-configuration/variant select English (US)
 ' > /etc/debconf-selections.txt
     debconf-set-selections /etc/debconf-selections.txt
 
+
+    # Setup LD_LIBRARY_PATH
+    printf '#!/bin/sh
+if [ -z ${LD_LIBRARY_PATH} ]; then
+  export LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
+else
+  if [[ ":$PATH:" != *":/usr/lib/x86_64-linux-gnu:"* ]]; then
+    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/x86_64-linux-gnu"
+  fi
+  if [[ ":$PATH:" != *":/lib/x86_64-linux-gnu:"* ]]; then
+    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/lib/x86_64-linux-gnu"
+  fi
+fi
+' > /etc/profile.d/001-ld-library-path.sh
+    chmod 644 /etc/profile.d/001-ld-library-path.sh
+    . /etc/profile.d/001-ld-library-path.sh
+
+
+    # Setup singularity env when logging in via external shell
+    printf '#!/bin/sh
+if [ -z ${SINGULARITY_COMMAND} ]; then
+  . <(cat /.singularity.d/env/*.sh | sed "s/. \/etc\/profile/# . \/etc\/profile/")
+fi
+' > /etc/profile.d/000-singularity.sh
+    chmod 644 /etc/profile.d/000-singularity.sh
+
+
     # Updates
     apt-get update
     apt-get upgrade -y
 
+
     # Use bash
     rm /bin/sh
     ln -s /bin/bash /bin/sh
+
+%environment
+    . /etc/profile

@@ -49,6 +49,7 @@ stage: final
     apt-get install -y zlib1g
 
 %environment
+    . /etc/profile
     export ANTS_HOME=/opt/ants
     export ANTSPATH=${ANTS_HOME}/bin
     export PATH=${ANTSPATH}:${PATH}
