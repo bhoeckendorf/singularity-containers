@@ -1,16 +1,17 @@
 bootstrap: docker
-from: ubuntu:groovy
+from: ubuntu:hirsute
 
 %runscript
     exec /bin/sh "$@"
 
 %post
+    # Disable and remove Ubuntu package cache
     printf 'Dir::Cache "";\nDir::Cache::archives "";\n' > /etc/apt/apt.conf.d/00_disable-cache-directories
     rm -rf /var/cache/apt/archives/*
 
+    # Additional Ubuntu config
     export DEBIAN_FRONTEND=noninteractive
-    printf '\
-locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8
+    printf 'locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8
 locales locales/default_environment_locale select en_US.UTF-8
 tzdata tzdata/Areas select US
 tzdata tzdata/Zones/US select Central
@@ -19,8 +20,10 @@ keyboard-configuration keyboard-configuration/variant select English (US)
 ' > /etc/debconf-selections.txt
     debconf-set-selections /etc/debconf-selections.txt
 
+    # Updates
     apt-get update
-    yes | unminimize
-    # apt-get install -y debconf-utils locales tzdata
     apt-get upgrade -y
-    apt-get install -y aptitude bash-completion exa htop lsof mc nano psmisc rsync tmux unzip wget  # iputils-ping iproute2
+
+    # Use bash
+    rm /bin/sh
+    ln -s /bin/bash /bin/sh
