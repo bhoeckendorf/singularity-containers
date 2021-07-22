@@ -1,12 +1,12 @@
-channel_priority: flexible
+channel_priority: strict
 channels:
+  - conda-forge
+  - defaults
   # - file://${MYDIR}/var/conda/channel
   - pytorch
-  - rapidsai
   - nvidia
-  - conda-forge
+  - rapidsai
   - fastai
-  - defaults
 envs_dirs:
   # - ${MYDIR}/var/conda/envs
   # - ~/.conda/envs
