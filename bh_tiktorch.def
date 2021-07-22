@@ -1,42 +1,37 @@
 bootstrap: localimage
-from: bh_arch.sif
+from: bh_ubuntu.sif
 
-%runscript
-    source /etc/profile.d/*
-    conda activate
-    tiktorch-server "$@"
+%startscript
+    . /etc/profile
+    conda activate tiktorch
+    exec tiktorch-server --addr 0.0.0.0 "$@"
 
 %apprun pytorch_test_gpu
-    source /etc/profile.d/*
-    conda activate
+    . /etc/profile
+    conda activate tiktorch
     python -c "import torch
 print(torch.cuda.is_available())"
 
 %post
     export CONDA_HOME=/opt/conda
+    export MAMBA_NO_BANNER=1
 
+    apt-get update
+    apt-get upgrade -y
+    apt-get install -y curl
 
-    # OS package manager
-    pacman -Syu --noconfirm
-
-    mkdir -p /var/cache/pacman/pkg
-    yes | pacman -Scc
-    rm -rf /var/cache/pacman/pkg
-
-
-    # conda
     curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     bash Miniconda3-latest-Linux-x86_64.sh -b -u -p ${CONDA_HOME}
     rm Miniconda3-latest-Linux-x86_64.sh
-    ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/conda.sh
-
-    source /etc/profile.d/conda.sh
+    chmod 644 ${CONDA_HOME}/etc/profile.d/conda.sh
+    ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/
+    . /etc/profile.d/conda.sh
 
     conda update --all
-    conda install -c ilastik-forge -c conda-forge -c pytorch tiktorch
-
+    conda install -c conda-forge mamba
+    mamba create -n tiktorch -c ilastik-forge -c conda-forge -c pytorch tiktorch
     chmod -R 777 ${CONDA_HOME}/pkgs
 
 %environment
+    . /etc/profile
     export CONDA_HOME=/opt/conda
-    source /etc/profile.d/*
