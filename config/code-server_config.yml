@@ -1,6 +1,6 @@
 bind-addr: 0.0.0.0:8999
 auth: password
-password: firsttimeonly
+hashed-password: 846acc3c5684ebcbc3c679fdea0f84a52d773cd80e4f0181d7bf22f1e2c03968
 cert: /etc/ssl/certs/bh-selfsigned.crt
 cert-key: /etc/ssl/private/bh-selfsigned.key
 extensions-dir: /research/sharedresources/cbi/common/burkhard/var/code-server/extensions
