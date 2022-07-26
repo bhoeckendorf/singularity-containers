@@ -1,17 +1,18 @@
-channel_priority: strict
 channels:
-  - conda-forge
-  - defaults
-  # - file://${MYDIR}/var/conda/channel
   - pytorch
+  - pyg
   - nvidia
   - rapidsai
+  - pyviz
+  - conda-forge
+  - defaults
   - fastai
 envs_dirs:
-  # - ${MYDIR}/var/conda/envs
+  # - /research/sharedresources/cbi/common/burkhard/var/conda/envs
+  # - /research/sharedresources/cbi/public/conda_envs
   # - ~/.conda/envs
-  - ${CONDA_HOME}/envs
+  - /opt/conda/envs
 pkgs_dirs:
-  # - ${MYDIR}/var/conda/pkgs
+  # - /research/sharedresources/cbi/public/conda_pkgs
   # - ~/.conda/pkgs
-  - ${CONDA_HOME}/pkgs
+  - /opt/conda/pkgs
