@@ -1,18 +1,67 @@
 bootstrap: localimage
 from: bh_ubuntu.sif
 
-%runscript
-    exec /bin/sh "$@"
-
 %startscript
-    exec tcpserver -HRDl0 0.0.0.0 2222 /usr/sbin/tinysshd -x sftp=/usr/lib/openssh/sftp-server /etc/tinyssh/sshkeydir
+    . /etc/profile
+    # tcpserver -HRDl0 0.0.0.0 2222 /usr/sbin/tinysshd -x sftp=/usr/lib/openssh/sftp-server /etc/tinyssh/sshkeydir
+    /usr/sbin/sshd -D
+
+%runscript
+    . /etc/profile
+    /bin/sh "$@"
+
+%apprun tinyssh
+    . /etc/profile
+    tcpserver -HRDl0 0.0.0.0 "$@" /usr/sbin/tinysshd -x sftp=/usr/lib/openssh/sftp-server /etc/tinyssh/sshkeydir
 
 %files
-    secrets/ed25519.pk /etc/tinyssh/sshkeydir/
-    secrets/ed25519.sk /etc/tinyssh/sshkeydir/.ed25519.sk
+    secrets/myenvvars.sh              /etc/profile.d/
+    secrets/dhparam.pem               /etc/ssl/
+    secrets/bh-selfsigned.key         /etc/ssl/private/
+    secrets/bh-selfsigned.crt         /etc/ssl/certs/
+
+    # tinyssh
+    secrets/ed25519.pk                /etc/tinyssh/sshkeydir/
+    secrets/ed25519.sk                /etc/tinyssh/sshkeydir/.ed25519.sk
+
+    # openssh
+    secrets/sshd_config               /root/
+    secrets/ssh_host_ed25519_key      /root/
+    secrets/ssh_host_ed25519_key.pub  /root/
 
 %post
+    # apt
     apt-get update
+    yes | unminimize
+    apt-get install -y debconf-utils locales tzdata
     apt-get upgrade -y
-    apt-get install -y openssh-sftp-server tinysshd ucspi-tcp-ipv6
+
+    apt-get install -y aptitude bash bash-completion curl exa fd-find glances htop iotop-c iproute2 iputils-ping iputils-tracepath lsof mc nano psmisc rsync tmux unzip vim wget  # iputils-ping iproute2
+    apt-get install -y openssh-server openssh-sftp-server tinysshd ucspi-tcp-ipv6  # openssh-server is more compatible than tinyssh
+
+    curl -LO https://github.com/ClementTsang/bottom/releases/download/0.6.8/bottom_0.6.8_amd64.deb
+    dpkg -i bottom_0.6.8_amd64.deb
+    rm bottom_0.6.8_amd64.deb
+
+    wget -O /usr/local/bin/broot https://dystroy.org/broot/download/x86_64-linux/broot
+    chmod +x /usr/local/bin/broot
+    /usr/local/bin/broot --print-shell-function bash > /etc/profile.d/broot.sh
+    chmod 644 /etc/profile.d/broot.sh
+
+    chmod 644 /etc/ssl/dhparam.pem /etc/ssl/certs/bh-selfsigned.crt /etc/ssl/private/bh-selfsigned.key
+
+    # tinyssh
     chmod -R 755 /etc/tinyssh/
+
+    # openssh
+    rm -rf /etc/ssh/ssh_host_*
+    mv /root/ssh_host_* /etc/ssh/
+    mv /root/sshd_config /etc/ssh/
+    chmod -R 755 /etc/ssh
+
+    # bash
+    rm /bin/sh
+    ln -s /bin/bash /bin/sh
+
+%environment
+    . /etc/profile

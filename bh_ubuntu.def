@@ -1,15 +1,10 @@
 bootstrap: docker
-from: ubuntu:hirsute
+from: ubuntu:latest
 
 %runscript
     exec /bin/sh "$@"
 
 %post
-    # Disable and remove Ubuntu package cache
-    printf 'Dir::Cache "";\nDir::Cache::archives "";\n' > /etc/apt/apt.conf.d/00_disable-cache-directories
-    rm -rf /var/cache/apt/archives/*
-
-
     # Additional Ubuntu config
     export DEBIAN_FRONTEND=noninteractive
     printf 'locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8
@@ -25,8 +20,11 @@ keyboard-configuration keyboard-configuration/variant select English (US)
     # Setup LD_LIBRARY_PATH
     printf '#!/bin/sh
 if [ -z ${LD_LIBRARY_PATH} ]; then
-  export LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
+  export LD_LIBRARY_PATH="/.singularity.d/libs:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu"
 else
+  if [[ ":$PATH:" != *":/.singularity.d/libs:"* ]]; then
+    export LD_LIBRARY_PATH="/.singularity.d/libs:${LD_LIBRARY_PATH}"
+  fi
   if [[ ":$PATH:" != *":/usr/lib/x86_64-linux-gnu:"* ]]; then
     export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/x86_64-linux-gnu"
   fi
@@ -51,6 +49,7 @@ fi
     # Updates
     apt-get update
     apt-get upgrade -y
+    apt-get -y clean
 
 
     # Use bash

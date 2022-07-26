@@ -19,6 +19,7 @@ print(torch.cuda.is_available())"
     apt-get update
     apt-get upgrade -y
     apt-get install -y curl
+    apt-get -y clean
 
     curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     bash Miniconda3-latest-Linux-x86_64.sh -b -u -p ${CONDA_HOME}
@@ -27,10 +28,11 @@ print(torch.cuda.is_available())"
     ln -s ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/
     . /etc/profile.d/conda.sh
 
-    conda update --all
+    conda update -c conda-forge --all
     conda install -c conda-forge mamba
-    mamba create -n tiktorch -c ilastik-forge -c conda-forge -c pytorch tiktorch
+    mamba create -y -q -n tiktorch -c ilastik-forge -c pytorch -c nvidia -c conda-forge tiktorch pytorch torchvision
     chmod -R 777 ${CONDA_HOME}/pkgs
+    conda clean -a -y
 
 %environment
     . /etc/profile

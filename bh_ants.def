@@ -9,7 +9,7 @@ stage: build
 
     mkdir /opt/src
     cd /opt/src
-    git clone --branch v2.3.5 --single-branch --depth 1 https://github.com/ANTsX/ANTs.git
+    git clone --branch v2.4.0 --single-branch --depth 1 https://github.com/ANTsX/ANTs.git
 
     mkdir ants-build
     cd ants-build
@@ -41,12 +41,13 @@ stage: final
     exec antsApplyTransforms "$@"
 
 %files from build
-    /opt/ants /opt/ants
+    /opt/ants
 
 %post   
     apt-get update
     apt-get upgrade -y
     apt-get install -y zlib1g
+    apt-get -y clean
 
 %environment
     . /etc/profile
