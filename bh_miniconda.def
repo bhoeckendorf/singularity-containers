@@ -1,0 +1,40 @@
+bootstrap: localimage
+from: bh_ubuntu.sif
+
+%labels
+    Author Burkhard Hoeckendorf <burkhard.hoeckendorf@pm.me>
+    Version v0.0.1
+
+%runscript
+    exec /bin/sh "$@"
+
+%post
+    printf 'export CONDA_HOME=/opt/conda
+export MAMBA_NO_BANNER=1
+' >> /etc/profile.d/02-exports.sh
+    . /etc/profile.d/02-exports.sh
+
+    apt-get update
+    apt-get -y upgrade
+    apt-get -y install bzip2 curl wget
+    apt-get -y clean
+
+    curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -u -p ${CONDA_HOME}
+    rm Miniconda3-latest-Linux-x86_64.sh
+    . ${CONDA_HOME}/etc/profile.d/conda.sh
+
+    conda update -c conda-forge --all
+    conda install -c conda-forge mamba
+    conda clean -y -a
+    chmod -R 755 ${CONDA_HOME}/etc/*     # 644
+    ln ${CONDA_HOME}/etc/profile.d/conda.sh /etc/profile.d/
+    ln ${CONDA_HOME}/etc/profile.d/mamba.sh /etc/profile.d/
+
+    wget -qO- https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj -C /usr/local/ bin/micromamba
+    # micromamba shell hook --shell=posix > /etc/profile.d/micromamba.sh
+    # chmod 644 /etc/profile.d/micromamba.sh
+
+    # use bash
+    echo 'dash dash/sh select false' | debconf-set-selections /dev/stdin
+    dpkg-reconfigure dash

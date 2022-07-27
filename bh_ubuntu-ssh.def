@@ -1,17 +1,18 @@
 bootstrap: localimage
-from: bh_ubuntu.sif
+from: bh_miniconda.sif
+
+%labels
+    Author Burkhard Hoeckendorf <burkhard.hoeckendorf@pm.me>
+    Version v0.0.1
 
 %startscript
-    . /etc/profile
     # tcpserver -HRDl0 0.0.0.0 2222 /usr/sbin/tinysshd -x sftp=/usr/lib/openssh/sftp-server /etc/tinyssh/sshkeydir
     /usr/sbin/sshd -D
 
 %runscript
-    . /etc/profile
     /bin/sh "$@"
 
 %apprun tinyssh
-    . /etc/profile
     tcpserver -HRDl0 0.0.0.0 "$@" /usr/sbin/tinysshd -x sftp=/usr/lib/openssh/sftp-server /etc/tinyssh/sshkeydir
 
 %files
@@ -30,14 +31,29 @@ from: bh_ubuntu.sif
     secrets/ssh_host_ed25519_key.pub  /root/
 
 %post
-    # apt
+    printf '\nif [[ -n $CARGO_HOME ]]; then
+  if [[ ":$PATH:" != *":$CARGO_HOME/bin:"* ]]; then
+    export PATH="$PATH:$CARGO_HOME/bin"
+  fi
+elif [[ -d "$HOME/.cargo/bin" ]] && [[ ":$PATH:" != *":$HOME/.cargo/bin:"* ]]; then
+  export PATH="$PATH:$HOME/.cargo/bin"
+fi
+
+if [[ -d "$HOME/.local/bin" ]] && [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+  export PATH="$PATH:$HOME/.local/bin"
+fi
+if [[ -d "$HOME/bin" ]] && [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+  export PATH="$PATH:$HOME/bin"
+fi\n' | sed -i '18r /dev/stdin' /etc/profile
+
+    chmod 755 /etc/ssl/dhparam.pem /etc/ssl/certs/bh-selfsigned.crt /etc/ssl/private /etc/ssl/private/bh-selfsigned.key
+
     apt-get update
     yes | unminimize
-    apt-get install -y debconf-utils locales tzdata
-    apt-get upgrade -y
-
-    apt-get install -y aptitude bash bash-completion curl exa fd-find glances htop iotop-c iproute2 iputils-ping iputils-tracepath lsof mc nano psmisc rsync tmux unzip vim wget  # iputils-ping iproute2
-    apt-get install -y openssh-server openssh-sftp-server tinysshd ucspi-tcp-ipv6  # openssh-server is more compatible than tinyssh
+    apt-get -y upgrade
+    apt-get -y install aptitude bash-completion curl exa fd-find git git-lfs git-completion glances htop iotop-c iproute2 iputils-ping iputils-tracepath lsof mc nano psmisc rsync tmux unzip vim wget  # iputils-ping iproute2
+    apt-get -y install openssh-server openssh-sftp-server tinysshd ucspi-tcp-ipv6  # openssh-server is more compatible than tinyssh
+    apt-get -y clean
 
     curl -LO https://github.com/ClementTsang/bottom/releases/download/0.6.8/bottom_0.6.8_amd64.deb
     dpkg -i bottom_0.6.8_amd64.deb
@@ -48,7 +64,14 @@ from: bh_ubuntu.sif
     /usr/local/bin/broot --print-shell-function bash > /etc/profile.d/broot.sh
     chmod 644 /etc/profile.d/broot.sh
 
-    chmod 644 /etc/ssl/dhparam.pem /etc/ssl/certs/bh-selfsigned.crt /etc/ssl/private/bh-selfsigned.key
+    sh -c "$(curl -fsLS https://chezmoi.io/get)" -- -b /usr/local/bin/
+    chezmoi completion bash --output=/usr/share/bash-completion/completions/chezmoi
+    chown --reference=/usr/share/bash-completion/completions/apt /usr/share/bash-completion/completions/chezmoi
+    chmod --reference=/usr/share/bash-completion/completions/apt /usr/share/bash-completion/completions/chezmoi
+
+    mamba update -y -q -c conda-forge --all
+    mamba install -y -q -c conda-forge conda-bash-completion mamba-bash-completion
+    conda clean -y -a
 
     # tinyssh
     chmod -R 755 /etc/tinyssh/
@@ -58,10 +81,3 @@ from: bh_ubuntu.sif
     mv /root/ssh_host_* /etc/ssh/
     mv /root/sshd_config /etc/ssh/
     chmod -R 755 /etc/ssh
-
-    # bash
-    rm /bin/sh
-    ln -s /bin/bash /bin/sh
-
-%environment
-    . /etc/profile

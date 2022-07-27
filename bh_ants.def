@@ -4,13 +4,12 @@ stage: build
 
 %post
     apt-get update
-    apt-get upgrade -y
-    apt-get install -y build-essential cmake git zlib1g-dev
+    apt-get -y upgrade
+    apt-get -y install build-essential cmake git zlib1g-dev
 
     mkdir /opt/src
     cd /opt/src
-    git clone --branch v2.4.0 --single-branch --depth 1 https://github.com/ANTsX/ANTs.git
-
+    git clone --branch v2.4.1 --single-branch --depth 1 https://github.com/ANTsX/ANTs.git
     mkdir ants-build
     cd ants-build
 
@@ -31,6 +30,10 @@ bootstrap: localimage
 from: bh_ubuntu.sif
 stage: final
 
+%labels
+    Author Burkhard Hoeckendorf <burkhard.hoeckendorf@pm.me>
+    Version v0.0.1
+
 %runscript
     exec /bin/sh "$@"
 
@@ -45,13 +48,12 @@ stage: final
 
 %post   
     apt-get update
-    apt-get upgrade -y
-    apt-get install -y zlib1g
+    apt-get -y upgrade
+    apt-get -y install zlib1g
     apt-get -y clean
 
 %environment
-    . /etc/profile
     export ANTS_HOME=/opt/ants
     export ANTSPATH=${ANTS_HOME}/bin
-    export PATH=${ANTSPATH}:${PATH}
-    export LD_LIBRARY_PATH=${ANTS_HOME}/lib:${LD_LIBRARY_PATH}
+    export PATH=${PATH}:${ANTSPATH}
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${ANTS_HOME}/lib
