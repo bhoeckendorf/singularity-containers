@@ -1,0 +1,65 @@
+bootstrap: localimage
+from: bh_miniconda.sif
+
+%labels
+    Author burkhard.hoeckendorf@pm.me
+    Version v0.0.1
+
+%help
+    Runs a MONAILabel server.
+
+
+    Start server
+    ------------
+    (example, replace <placeholders>)
+    
+    singularity instance start \
+      --nv -B /research                  `# singularity args` \
+      </path/to/bh_monailabel.sif> \
+        <instance_name>                  `# <instance_name> acts as handle (see stop instructions below)` \
+          base                           `# conda env to use, base is in-container and usually fine` \
+            -a </path/to/project_code> \
+            -s </path/to/project_data> \
+            -i 0.0.0.0                   `# listen to all IP addresses` \
+            -p 8000                      `# port`
+
+
+    Stop server
+    -----------
+
+    singularity instance stop <instance_name>
+
+
+    List running instances
+    ----------------------
+    (Output includes other containers)
+
+    singularity instance list
+
+
+%startscript
+    conda activate "$1" || . /etc/profile; conda activate "$1"
+    monailabel start_server "${@:2}"
+
+%apprun monailabel
+    conda activate "$1" || . /etc/profile; conda activate "$1"
+    monailabel start_server "${@:2}"
+
+%apprun pytorch-test-gpu
+    conda activate "$1" || . /etc/profile; conda activate "$1"
+    python -c "import torch
+print(torch.cuda.is_available())"
+
+%files
+    conda_envs/monailabel.yml  /root/
+
+%post
+    apt-get update
+    apt-get -y upgrade
+    apt-get -y install build-essential
+    apt-get -y clean
+
+    mamba update -y -q -c conda-forge --all
+    mamba env update -q -f /root/monailabel.yml -n base
+    conda clean -y -q -a
+    rm /root/monailabel.yml
